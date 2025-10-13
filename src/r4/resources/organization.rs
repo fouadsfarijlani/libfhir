@@ -6,7 +6,7 @@ use crate::{
         element::BackboneElement,
         reference::Reference,
     },
-    resources::resource::DomainResource,
+    resources::resource::{DomainResource, GetReferences},
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -36,16 +36,23 @@ pub struct Organization {
 }
 
 impl Organization {
-    pub fn from_json(data: &str) -> Self {
-        let results = serde_json::from_str::<Organization>(data);
-        match results {
+    pub fn from_json(data: &str) -> Result<Self, serde_json::Error> {
+        serde_json::from_str(data)
+    }
+}
+
+impl From<&str> for Organization {
+    fn from(value: &str) -> Self {
+        let result = Self::from_json(value);
+        match result {
             Ok(org) => org,
             Err(e) => panic!("{e:?}"),
         }
     }
+}
 
-    // this can possibly be a trait
-    pub fn get_references(&self) -> Vec<&Reference> {
+impl GetReferences for Organization {
+    fn get_references(&self) -> Vec<&Reference> {
         let mut references: Vec<&Reference> = Vec::new();
         if let Some(eps) = &self.endpoint {
             references = eps.iter().collect();
