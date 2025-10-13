@@ -1,6 +1,6 @@
 use libfhir::{
     r4::resources::Organization,
-    resources::{endpoint::Endpoint, resource::GetReferences},
+    resources::Endpoint,
 };
 
 mod fhir;
@@ -16,17 +16,21 @@ fn main() {
     }
     "#;
     let org = Organization::from(example);
-    println!("{:?}", org.get_references());
+    let org_json = org.to_json();
+    match &org_json {
+        Ok(org_json) => println!("{:?}", org_json),
+        Err(err) => panic!("{err:?}"),
+    }
 
     let example_2 = r#"
     {
     "resourceType": "Endpoint",
   "status": "test",
-  "connection_type": {
+  "connectionType": {
     "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
     "code": "hl7-fhir-rest"
   },
-     "payload_type": [
+     "payloadType": [
     {
       "coding": [
         {
@@ -42,5 +46,5 @@ fn main() {
 "#;
 
     let ep = Endpoint::from(example_2);
-    println!("{:?}", ep)
+    println!("{:?}", ep.to_json())
 }

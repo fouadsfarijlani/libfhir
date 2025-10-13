@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::convert::From;
 
 use crate::{
     elements::{
@@ -20,6 +21,7 @@ pub struct OrganizationContact {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Organization {
     #[serde(flatten)]
     pub resource: Option<DomainResource>,
@@ -32,12 +34,16 @@ pub struct Organization {
     pub address: Option<Vec<Address>>,
     pub part_of: Option<Reference>,
     pub contact: Option<Vec<OrganizationContact>>,
-    pub endpoint: Option<Vec<Reference>>, // to be resolved later
+    pub endpoint: Option<Vec<Reference>>,
 }
 
 impl Organization {
     pub fn from_json(data: &str) -> Result<Self, serde_json::Error> {
         serde_json::from_str(data)
+    }
+
+    pub fn to_json(&self) -> Result<String, serde_json::Error> {
+        serde_json::to_string_pretty(self)
     }
 }
 
