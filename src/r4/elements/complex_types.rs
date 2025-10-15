@@ -1,6 +1,9 @@
 use serde::{Deserialize, Serialize};
 
-use crate::elements::{element::Element, reference::Reference};
+use crate::{
+    elements::{element::Element, reference::Reference},
+    resources::Organization,
+};
 
 #[derive(Debug)]
 pub struct Attachement {
@@ -15,7 +18,7 @@ pub struct Attachement {
     pub creation: Option<String>, // to be resolved later
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Coding {
     #[serde(flatten)]
     pub element: Element,
@@ -25,7 +28,7 @@ pub struct Coding {
     pub user_selected: Option<bool>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct CodeableConcept {
     #[serde(flatten)]
     pub elements: Element,
@@ -64,7 +67,7 @@ pub struct Ratio {
     pub denomenator: Option<Quantity>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Period {
     #[serde(flatten)]
     pub element: Element,
@@ -84,7 +87,7 @@ pub struct SampledData {
     pub data: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Identifier {
     #[serde(flatten)]
     pub element: Element,
@@ -93,7 +96,7 @@ pub struct Identifier {
     pub system: Option<String>,
     pub value: Option<String>,
     pub period: Option<Period>, // to be resolved
-    pub assigner: Option<Reference>,
+    pub assigner: Option<Reference<Organization>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

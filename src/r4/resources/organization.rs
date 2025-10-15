@@ -2,11 +2,10 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     elements::{
-        complex_types::{Address, CodeableConcept, ContactPoint, HumanName, Identifier},
-        element::BackboneElement,
-        reference::Reference,
+        Address, BackboneElement, CodeableConcept, ContactPoint, GetResourceRefernces, HumanName,
+        Identifier, Reference, ReferenceTypes,
     },
-    resources::resource::DomainResource,
+    resources::{DomainResource, Endpoint, ResourceType},
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -30,9 +29,9 @@ pub struct Organization {
     pub alias: Option<Vec<String>>,
     pub telecom: Option<Vec<ContactPoint>>,
     pub address: Option<Vec<Address>>,
-    pub part_of: Option<Reference>,
+    pub part_of: Option<Reference<Organization>>,
     pub contact: Option<Vec<OrganizationContact>>,
-    pub endpoint: Option<Vec<Reference>>, // to be resolved later
+    pub endpoint: Option<Vec<Reference<Endpoint>>>, // to be resolved later
 }
 
 impl Organization {
@@ -43,16 +42,22 @@ impl Organization {
             Err(e) => panic!("{e:?}"),
         }
     }
+}
 
-    // this can possibly be a trait
-    pub fn get_references(&self) -> Vec<&Reference> {
-        let mut references: Vec<&Reference> = Vec::new();
+impl ResourceType for Organization {
+    const TYPE: &'static str = "Organization";
+}
+
+impl GetResourceRefernces for Organization {
+    fn get_references(&self) -> Vec<ReferenceTypes> {
+        let mut references: Vec<ReferenceTypes> = Vec::new();
+
         if let Some(eps) = &self.endpoint {
-            references = eps.iter().collect();
+            references = eps.into_iter().map(|e| ReferenceTypes::from(e)).collect();
         }
 
         if let Some(part_of) = &self.part_of {
-            references.push(part_of);
+            references.push(ReferenceTypes::from(part_of));
         }
 
         references

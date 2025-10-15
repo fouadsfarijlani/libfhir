@@ -1,4 +1,4 @@
-use libfhir::r4::resources::Organization;
+use libfhir::{elements::GetResourceRefernces, r4::resources::Organization};
 
 mod fhir;
 
@@ -13,5 +13,5 @@ fn main() {
     }
     "#;
     let org = Organization::from_json(example);
-    println!("{:?}", org.get_references())
+    println!("{:?}", org.get_references());
 }
