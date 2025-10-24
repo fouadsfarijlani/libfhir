@@ -7,7 +7,7 @@ use crate::{
     resources::{Endpoint, Organization, ResourceType},
 };
 
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, PartialEq, Deserialize, Default)]
 pub struct Reference<T: ResourceType> {
     #[serde(flatten)]
     pub element: Option<Element>,
@@ -16,6 +16,7 @@ pub struct Reference<T: ResourceType> {
     pub display: Option<String>,
     pub identifier: Option<Vec<Identifier>>,
 
+    #[serde(skip)]
     pub _m: PhantomData<T>,
 }
 

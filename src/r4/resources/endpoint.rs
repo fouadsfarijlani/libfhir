@@ -3,9 +3,9 @@ use crate::{
     resources::{DomainResource, Organization, ResourceType},
 };
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Endpoint {
-    pub resource: DomainResource,
+    pub domain_resource: DomainResource,
     pub identifier: Option<Vec<Identifier>>,
     pub status: String, // to be resolved later
     pub connection_type: Coding,

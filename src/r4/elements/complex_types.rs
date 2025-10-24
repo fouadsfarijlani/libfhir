@@ -18,7 +18,7 @@ pub struct Attachement {
     pub creation: Option<String>, // to be resolved later
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Coding {
     #[serde(flatten)]
     pub element: Element,
@@ -28,7 +28,7 @@ pub struct Coding {
     pub user_selected: Option<bool>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, PartialEq, Deserialize)]
 pub struct CodeableConcept {
     #[serde(flatten)]
     pub elements: Element,
@@ -67,7 +67,7 @@ pub struct Ratio {
     pub denomenator: Option<Quantity>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Period {
     #[serde(flatten)]
     pub element: Element,
@@ -87,7 +87,7 @@ pub struct SampledData {
     pub data: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Identifier {
     #[serde(flatten)]
     pub element: Element,
@@ -99,7 +99,7 @@ pub struct Identifier {
     pub assigner: Option<Reference<Organization>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct HumanName {
     #[serde(flatten)]
     pub element: Element,
@@ -112,7 +112,7 @@ pub struct HumanName {
     pub period: Option<Period>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Address {
     #[serde(flatten)]
     pub element: Element,
@@ -128,7 +128,7 @@ pub struct Address {
     pub period: Option<Period>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct ContactPoint {
     #[serde(flatten)]
     pub element: Element,
