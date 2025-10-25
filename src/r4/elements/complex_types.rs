@@ -18,7 +18,7 @@ pub struct Attachement {
     pub creation: Option<String>, // to be resolved later
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Default)]
 pub struct Coding {
     #[serde(flatten)]
     pub element: Element,

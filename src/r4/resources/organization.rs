@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     elements::{
-        Address, BackboneElement, CodeableConcept, ContactPoint, GetResourceRefernces, HumanName,
+        Address, BackboneElement, CodeableConcept, ContactPoint, GetResourceReferences, HumanName,
         Identifier, Reference, ReferenceTypes,
     },
     resources::{DomainResource, Endpoint, Resource, ResourceType},
@@ -19,6 +19,7 @@ pub struct OrganizationContact {
 }
 
 #[derive(Debug, Default, Serialize, Deserialize, PartialEq)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 pub struct Organization {
     #[serde(flatten)]
     pub domain_resource: DomainResource,
@@ -41,6 +42,26 @@ impl Organization {
             Ok(org) => org,
             Err(e) => panic!("{e:?}"),
         }
+    }
+}
+
+impl ResourceType for Organization {
+    const TYPE: &'static str = "Organization";
+}
+
+impl GetResourceReferences for Organization {
+    fn get_references(&self) -> Vec<ReferenceTypes> {
+        let mut references: Vec<ReferenceTypes> = Vec::new();
+
+        if let Some(eps) = &self.endpoint {
+            references = eps.into_iter().map(|e| ReferenceTypes::from(e)).collect();
+        }
+
+        if let Some(part_of) = &self.part_of {
+            references.push(ReferenceTypes::from(part_of));
+        }
+
+        references
     }
 }
 
@@ -125,12 +146,12 @@ impl OrganizationBuilder {
         self
     }
 
-    pub fn with_contact(mut self, organizaiton_contact: Vec<OrganizationContact>) -> Self {
-        self.contact = Some(organizaiton_contact);
+    pub fn with_contact(mut self, organization_contact: Vec<OrganizationContact>) -> Self {
+        self.contact = Some(organization_contact);
         self
     }
 
-    pub fn endpoint(mut self, endpoint: Vec<Reference<Endpoint>>) -> Self {
+    pub fn with_endpoint(mut self, endpoint: Vec<Reference<Endpoint>>) -> Self {
         self.endpoint = Some(endpoint);
         self
     }
@@ -152,26 +173,6 @@ impl OrganizationBuilder {
     }
 }
 
-impl ResourceType for Organization {
-    const TYPE: &'static str = "Organization";
-}
-
-impl GetResourceRefernces for Organization {
-    fn get_references(&self) -> Vec<ReferenceTypes> {
-        let mut references: Vec<ReferenceTypes> = Vec::new();
-
-        if let Some(eps) = &self.endpoint {
-            references = eps.into_iter().map(|e| ReferenceTypes::from(e)).collect();
-        }
-
-        if let Some(part_of) = &self.part_of {
-            references.push(ReferenceTypes::from(part_of));
-        }
-
-        references
-    }
-}
-
 #[cfg(test)]
 mod test {
     use super::*;
@@ -185,5 +186,41 @@ mod test {
             .build();
 
         assert_eq!(expected, actual)
+    }
+
+    // TODO: fix the annoying syntax below
+    #[test]
+    pub fn test_from_json_should_suceed() {
+        let data = r#"
+        {
+            "reourceType": "Organization",
+            "id": "some-id",
+            "active": true,
+            "part_of": {"reference": "Organization/1"},
+            "endpoint": [
+                {"reference": "Endpoint/1"},
+                {"reference": "Endpoint/2"}
+            ]
+        }
+        "#;
+        let mut part_of = Reference::<Organization>::default();
+        part_of.reference = Some("Organization/1".to_string());
+
+        let mut ep_1 = Reference::<Endpoint>::default();
+        ep_1.reference = Some("Endpoint/1".to_string());
+
+        let mut ep_2 = Reference::<Endpoint>::default();
+        ep_2.reference = Some("Endpoint/2".to_string());
+
+        let endpoint = vec![ep_1, ep_2];
+        let expected = OrganizationBuilder::new(String::from("some-id"))
+            .with_active(true)
+            .with_part_of(part_of)
+            .with_endpoint(endpoint)
+            .build();
+
+        let actual = Organization::from_json(data);
+
+        assert_eq!(expected, actual);
     }
 }

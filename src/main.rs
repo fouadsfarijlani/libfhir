@@ -1,4 +1,4 @@
-use libfhir::{elements::GetResourceRefernces, r4::resources::Organization};
+use libfhir::{elements::GetResourceReferences, r4::resources::Organization};
 
 mod fhir;
 

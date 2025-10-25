@@ -8,9 +8,10 @@ use crate::{
 };
 
 #[derive(Debug, Serialize, PartialEq, Deserialize, Default)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 pub struct Reference<T: ResourceType> {
     #[serde(flatten)]
-    pub element: Option<Element>,
+    pub element: Element,
     pub reference: Option<String>,
     pub r#type: Option<String>,
     pub display: Option<String>,
@@ -38,6 +39,6 @@ impl<'a> From<&'a Reference<Organization>> for ReferenceTypes<'a> {
     }
 }
 
-pub trait GetResourceRefernces {
+pub trait GetResourceReferences {
     fn get_references(&self) -> Vec<ReferenceTypes>;
 }
