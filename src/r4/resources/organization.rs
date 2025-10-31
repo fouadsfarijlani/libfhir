@@ -19,7 +19,7 @@ pub struct OrganizationContact {
 }
 
 #[derive(Debug, Default, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+#[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Organization {
     #[serde(flatten)]
     pub domain_resource: DomainResource,
@@ -196,7 +196,7 @@ mod test {
             "reourceType": "Organization",
             "id": "some-id",
             "active": true,
-            "part_of": {"reference": "Organization/1"},
+            "partOf": {"reference": "Organization/1"},
             "endpoint": [
                 {"reference": "Endpoint/1"},
                 {"reference": "Endpoint/2"}

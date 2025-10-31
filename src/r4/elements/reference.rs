@@ -8,7 +8,7 @@ use crate::{
 };
 
 #[derive(Debug, Serialize, PartialEq, Deserialize, Default)]
-#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+#[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Reference<T: ResourceType> {
     #[serde(flatten)]
     pub element: Element,
