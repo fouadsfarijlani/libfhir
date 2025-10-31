@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize, Default)]
-#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+#[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Element {
     pub id: Option<String>,
     pub extention: Option<Vec<String>>, // to be resolved later
