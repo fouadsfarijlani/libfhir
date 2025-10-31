@@ -1,12 +1,13 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, Default)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 pub struct Element {
     pub id: Option<String>,
     pub extention: Option<Vec<String>>, // to be resolved later
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Default)]
 pub struct BackboneElement {
     #[serde(flatten)]
     pub element: Element,
