@@ -6,6 +6,8 @@ pub mod r4 {
     }
     pub mod resources {
         pub mod endpoint;
+        pub use endpoint::*;
+
         pub mod organization;
         pub use organization::*;
 

@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::elements::reference::Reference;
+
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Resource {
     pub id: Option<String>,
@@ -24,4 +26,8 @@ pub struct DomainResource {
     pub text: Option<String>,
     pub contained: Option<Vec<String>>, // To be resolved later
     pub exnetions: Option<Vec<String>>, // to be resolved later
+}
+
+pub trait GetReferences {
+    fn get_references(&self) -> Vec<&Reference>;
 }
