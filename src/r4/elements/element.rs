@@ -9,7 +9,7 @@ pub struct Element {
     pub extention: Option<Vec<String>>, // to be resolved later
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Default)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
 pub struct BackboneElement {
     #[serde(flatten)]
     pub element: Element,

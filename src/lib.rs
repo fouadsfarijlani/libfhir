@@ -55,6 +55,9 @@ pub mod r4 {
         pub mod organization;
         pub use organization::*;
 
+        pub mod location;
+        pub use location::*;
+
         pub mod resource;
         pub use resource::*;
     }

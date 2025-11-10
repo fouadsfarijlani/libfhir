@@ -5,7 +5,7 @@ use crate::{
     resources::{self, ResourceType},
 };
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Default)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
 pub struct Period {
     #[serde(flatten)]
     pub element: Element,

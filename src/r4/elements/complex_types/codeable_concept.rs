@@ -5,7 +5,7 @@ use crate::{
     resources::{self, ResourceType},
 };
 
-#[derive(Debug, Default, Serialize, PartialEq, Deserialize)]
+#[derive(Debug, Default, Serialize, PartialEq, Deserialize, Clone)]
 pub struct CodeableConcept {
     #[serde(flatten)]
     pub element: Element,

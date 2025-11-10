@@ -8,7 +8,7 @@ use crate::{
     resources::{DomainResource, Endpoint, Resource, ResourceType},
 };
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 pub struct OrganizationContact {
     #[serde(flatten)]
     pub element: BackboneElement,
@@ -18,7 +18,7 @@ pub struct OrganizationContact {
     pub address: Option<Address>,
 }
 
-#[derive(Debug, Default, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Default, Serialize, Deserialize, PartialEq, Clone)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Organization {
     #[serde(flatten)]

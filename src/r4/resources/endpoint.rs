@@ -3,7 +3,7 @@ use crate::{
     resources::{DomainResource, Organization, ResourceType},
 };
 
-#[derive(Debug, PartialEq, Default)]
+#[derive(Debug, PartialEq, Default, Clone)]
 pub struct Endpoint {
     pub domain_resource: DomainResource,
     pub identifier: Option<Vec<Identifier>>,

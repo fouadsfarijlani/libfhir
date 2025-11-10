@@ -5,7 +5,7 @@ use crate::{
     resources::{self, Organization, ResourceType},
 };
 // TODO: add IdentifierUse Types
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct Identifier {
     #[serde(flatten)]
     pub element: Element,

@@ -5,7 +5,7 @@ use crate::{
     resources::{self, ResourceType},
 };
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct HumanName {
     #[serde(flatten)]
     pub element: Element,
