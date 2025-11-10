@@ -1,3 +1,5 @@
+use std::panic;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Default, Serialize, Deserialize, PartialEq)]
@@ -21,5 +23,18 @@ pub trait ResourceType {
 
     fn get_resource_type(&self) -> &'static str {
         Self::TYPE
+    }
+}
+
+// TODO: these functions should be in a separate crate
+pub fn from_json<'a, T>(data: &'a str) -> T
+where
+    T: ResourceType,
+    T: Deserialize<'a>,
+{
+    let results = serde_json::from_str(data);
+    match results {
+        Ok(res) => res,
+        Err(e) => panic!("{e:?}"),
     }
 }

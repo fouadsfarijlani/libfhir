@@ -175,6 +175,8 @@ impl OrganizationBuilder {
 
 #[cfg(test)]
 mod test {
+    use crate::elements::ReferenceBuilder;
+
     use super::*;
     #[test]
     pub fn test_build_org() {
@@ -203,14 +205,18 @@ mod test {
             ]
         }
         "#;
-        let mut part_of = Reference::<Organization>::default();
-        part_of.reference = Some("Organization/1".to_string());
 
-        let mut ep_1 = Reference::<Endpoint>::default();
-        ep_1.reference = Some("Endpoint/1".to_string());
+        let part_of = ReferenceBuilder::default()
+            .with_refernece("Organization/1")
+            .build::<Organization>();
 
-        let mut ep_2 = Reference::<Endpoint>::default();
-        ep_2.reference = Some("Endpoint/2".to_string());
+        let ep_1 = ReferenceBuilder::default()
+            .with_refernece("Endpoint/1")
+            .build::<Endpoint>();
+
+        let ep_2 = ReferenceBuilder::default()
+            .with_refernece("Endpoint/2")
+            .build::<Endpoint>();
 
         let endpoint = vec![ep_1, ep_2];
         let expected = OrganizationBuilder::new(String::from("some-id"))
