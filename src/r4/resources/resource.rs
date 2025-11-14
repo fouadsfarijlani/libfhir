@@ -2,14 +2,14 @@ use std::panic;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Default, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Default, Serialize, Deserialize, PartialEq, Clone)]
 pub struct Resource {
     pub id: Option<String>,
     pub meta: Option<String>, // to be resoloved later
     pub implicit_rules: Option<String>,
 }
 
-#[derive(Debug, Default, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Default, Serialize, Deserialize, PartialEq, Clone)]
 pub struct DomainResource {
     #[serde(flatten)]
     pub resource: Resource,

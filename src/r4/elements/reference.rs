@@ -4,10 +4,10 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     elements::{complex_types::Identifier, element::Element},
-    resources::{self, Endpoint, Organization, ResourceType},
+    resources::{self, Endpoint, Location, Organization, ResourceType},
 };
 
-#[derive(Debug, Serialize, PartialEq, Deserialize, Default)]
+#[derive(Debug, Serialize, PartialEq, Deserialize, Default, Clone)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Reference<T: ResourceType> {
     #[serde(flatten)]
@@ -35,10 +35,11 @@ where
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ReferenceTypes<'a> {
     ReferenceOrganization(&'a Reference<Organization>),
     ReferenceEndpoint(&'a Reference<Endpoint>),
+    ReferenceLocation(&'a Reference<Location>),
 }
 
 impl<'a> From<&'a Reference<Endpoint>> for ReferenceTypes<'a> {
@@ -50,6 +51,12 @@ impl<'a> From<&'a Reference<Endpoint>> for ReferenceTypes<'a> {
 impl<'a> From<&'a Reference<Organization>> for ReferenceTypes<'a> {
     fn from(value: &'a Reference<Organization>) -> Self {
         Self::ReferenceOrganization(value)
+    }
+}
+
+impl<'a> From<&'a Reference<Location>> for ReferenceTypes<'a> {
+    fn from(value: &'a Reference<Location>) -> Self {
+        Self::ReferenceLocation(value)
     }
 }
 

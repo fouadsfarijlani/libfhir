@@ -5,7 +5,7 @@ use crate::{
     resources::{self, ResourceType},
 };
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Address {
     #[serde(flatten)]

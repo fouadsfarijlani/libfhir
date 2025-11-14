@@ -5,7 +5,7 @@ use crate::{
     resources::{self, ResourceType},
 };
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Default)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Coding {
     #[serde(flatten)]
@@ -13,6 +13,7 @@ pub struct Coding {
     pub system: Option<String>, // to be resolved later
     pub version: Option<String>,
     pub code: Option<String>, // to be resolved later
+    pub display: Option<String>,
     pub user_selected: Option<bool>,
 }
 
@@ -32,6 +33,7 @@ pub struct CodingBuilder {
     system: Option<String>,
     version: Option<String>,
     code: Option<String>,
+    display: Option<String>,
     user_selected: Option<bool>,
 }
 
@@ -62,12 +64,18 @@ impl CodingBuilder {
         self
     }
 
+    pub fn with_display(mut self, display: impl Into<String>) -> Self {
+        self.display = Some(display.into());
+        self
+    }
+
     pub fn build(self) -> Coding {
         Coding {
             element: self.element,
             system: self.system,
             version: self.version,
             code: self.code,
+            display: self.display,
             user_selected: self.user_selected,
         }
     }
@@ -87,6 +95,7 @@ mod test {
             system: Some("some-system".to_string()),
             version: Some("some-version".to_string()),
             code: Some("some-code".to_string()),
+            display: Some("text".to_string()),
             user_selected: Some(true),
         };
 
@@ -94,6 +103,7 @@ mod test {
             .with_system("some-system")
             .with_version("some-version")
             .with_code("some-code")
+            .with_display("text")
             .with_user_selected(true)
             .build();
 
@@ -108,6 +118,7 @@ mod test {
             "system": "http://example.org",
             "version": "the version",
             "code": "important code",
+            "display": "text",
             "userSelected": false
         }
         "#;
@@ -115,6 +126,7 @@ mod test {
             .with_system("http://example.org")
             .with_version("the version")
             .with_code("important code")
+            .with_display("text")
             .with_user_selected(false)
             .build();
 
