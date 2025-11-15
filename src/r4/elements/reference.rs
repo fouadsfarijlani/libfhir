@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     elements::{complex_types::Identifier, element::Element},
-    resources::{self, Endpoint, Location, Organization, ResourceType},
+    resources::{self, Endpoint, HealthcareService, Location, Organization, ResourceType},
 };
 
 #[derive(Debug, Serialize, PartialEq, Deserialize, Default, Clone)]
@@ -40,6 +40,7 @@ pub enum ReferenceTypes<'a> {
     ReferenceOrganization(&'a Reference<Organization>),
     ReferenceEndpoint(&'a Reference<Endpoint>),
     ReferenceLocation(&'a Reference<Location>),
+    ReferecenceHealthcareServce(&'a Reference<HealthcareService>),
 }
 
 impl<'a> From<&'a Reference<Endpoint>> for ReferenceTypes<'a> {
@@ -57,6 +58,12 @@ impl<'a> From<&'a Reference<Organization>> for ReferenceTypes<'a> {
 impl<'a> From<&'a Reference<Location>> for ReferenceTypes<'a> {
     fn from(value: &'a Reference<Location>) -> Self {
         Self::ReferenceLocation(value)
+    }
+}
+
+impl<'a> From<&'a Reference<HealthcareService>> for ReferenceTypes<'a> {
+    fn from(value: &'a Reference<HealthcareService>) -> Self {
+        Self::ReferecenceHealthcareServce(value)
     }
 }
 
