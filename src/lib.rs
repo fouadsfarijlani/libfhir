@@ -49,11 +49,17 @@ pub mod r4 {
         pub use reference::*;
     }
     pub mod resources {
+        pub mod healthcare_service;
+        pub use healthcare_service::*;
+
         pub mod endpoint;
         pub use endpoint::*;
 
         pub mod organization;
         pub use organization::*;
+
+        pub mod organization_affiliation;
+        pub use organization_affiliation::*;
 
         pub mod location;
         pub use location::*;
