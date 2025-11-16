@@ -209,7 +209,7 @@ mod test {
     fn test_build_should_succeed() {
         let connection_type = CodingBuilder::default().with_code("a code").build();
         let managing_org = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .build::<Organization>();
         let payload_type = CodeableConceptBuilder::default().with_text("mime").build();
 
@@ -297,7 +297,7 @@ mod test {
             .with_code("some-code")
             .build();
         let managing_org = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .build::<Organization>();
         let identifer = IdentifierBuilder::default()
             .with_system("http://example.com")

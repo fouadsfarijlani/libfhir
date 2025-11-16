@@ -339,15 +339,15 @@ mod test {
             .with_value("AFF-12345")
             .build();
         let org = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .with_display("Primary Health Org")
             .build::<Organization>();
         let participating_org = ReferenceBuilder::default()
-            .with_refernece("Organization/2")
+            .with_reference("Organization/2")
             .with_display("Partner Healthcare Org")
             .build::<Organization>();
         let network = ReferenceBuilder::default()
-            .with_refernece("Organization/3")
+            .with_reference("Organization/3")
             .build::<Organization>();
 
         let coding = CodingBuilder::default()
@@ -369,13 +369,13 @@ mod test {
             .with_text("General Practice")
             .build();
         let location = ReferenceBuilder::default()
-            .with_refernece("Location/loc1")
+            .with_reference("Location/loc1")
             .build::<Location>();
         let healthcare_service = ReferenceBuilder::default()
-            .with_refernece("HealthcareService/hs1")
+            .with_reference("HealthcareService/hs1")
             .build::<HealthcareService>();
         let endpoint = ReferenceBuilder::default()
-            .with_refernece("Endpoint/ep1")
+            .with_reference("Endpoint/ep1")
             .build::<Endpoint>();
         let period = PeriodBuilder::default()
             .with_start("2020-01-01")
@@ -409,24 +409,24 @@ mod test {
     #[test]
     fn test_get_references_should_succeed() {
         let org = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .with_display("Primary Health Org")
             .build::<Organization>();
         let participating_org = ReferenceBuilder::default()
-            .with_refernece("Organization/2")
+            .with_reference("Organization/2")
             .with_display("Partner Healthcare Org")
             .build::<Organization>();
         let network = ReferenceBuilder::default()
-            .with_refernece("Organization/3")
+            .with_reference("Organization/3")
             .build::<Organization>();
         let location = ReferenceBuilder::default()
-            .with_refernece("Location/loc1")
+            .with_reference("Location/loc1")
             .build::<Location>();
         let healthcare_service = ReferenceBuilder::default()
-            .with_refernece("HealthcareService/hs1")
+            .with_reference("HealthcareService/hs1")
             .build::<HealthcareService>();
         let endpoint = ReferenceBuilder::default()
-            .with_refernece("Endpoint/1")
+            .with_reference("Endpoint/1")
             .build::<Endpoint>();
 
         let org_aff = OrganizationAffiliationBuilder::default()
@@ -553,13 +553,13 @@ mod test {
             identifier: None,
         };
         let org = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .build::<Organization>();
         let participating_org = ReferenceBuilder::default()
-            .with_refernece("Organization/2")
+            .with_reference("Organization/2")
             .build::<Organization>();
         let network = ReferenceBuilder::default()
-            .with_refernece("Organization/3")
+            .with_reference("Organization/3")
             .build::<Organization>();
         let period = PeriodBuilder::default()
             .with_start("2025-01-01")
@@ -572,10 +572,10 @@ mod test {
             .add_coding(speciality_code)
             .build();
         let location = ReferenceBuilder::default()
-            .with_refernece("Location/1")
+            .with_reference("Location/1")
             .build::<Location>();
         let healthcare_service = ReferenceBuilder::default()
-            .with_refernece("HealthcareService/1")
+            .with_reference("HealthcareService/1")
             .build::<HealthcareService>();
         let actual = OrganizationAffiliationBuilder::new("org-aff-1")
             .with_active(true)
