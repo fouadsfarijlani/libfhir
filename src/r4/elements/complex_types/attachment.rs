@@ -5,7 +5,7 @@ use crate::{
     resources::{self, ResourceType},
 };
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Attachement {
     #[serde(flatten)]

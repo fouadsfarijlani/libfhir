@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     elements::{complex_types::Identifier, element::Element},
-    resources::{self, Endpoint, Location, Organization, ResourceType},
+    resources::{self, Endpoint, HealthcareService, Location, Organization, ResourceType},
 };
 
 #[derive(Debug, Serialize, PartialEq, Deserialize, Default, Clone)]
@@ -40,6 +40,7 @@ pub enum ReferenceTypes<'a> {
     ReferenceOrganization(&'a Reference<Organization>),
     ReferenceEndpoint(&'a Reference<Endpoint>),
     ReferenceLocation(&'a Reference<Location>),
+    ReferecenceHealthcareServce(&'a Reference<HealthcareService>),
 }
 
 impl<'a> From<&'a Reference<Endpoint>> for ReferenceTypes<'a> {
@@ -57,6 +58,12 @@ impl<'a> From<&'a Reference<Organization>> for ReferenceTypes<'a> {
 impl<'a> From<&'a Reference<Location>> for ReferenceTypes<'a> {
     fn from(value: &'a Reference<Location>) -> Self {
         Self::ReferenceLocation(value)
+    }
+}
+
+impl<'a> From<&'a Reference<HealthcareService>> for ReferenceTypes<'a> {
+    fn from(value: &'a Reference<HealthcareService>) -> Self {
+        Self::ReferecenceHealthcareServce(value)
     }
 }
 
@@ -80,7 +87,7 @@ impl ReferenceBuilder {
         reference_builder
     }
 
-    pub fn with_refernece(mut self, reference: impl Into<String>) -> Self {
+    pub fn with_reference(mut self, reference: impl Into<String>) -> Self {
         self.reference = Some(reference.into());
         self
     }
@@ -136,7 +143,7 @@ mod test {
         "#;
 
         let expected = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .with_type("Organization")
             .with_display("Org-1")
             .build::<Organization>();
@@ -161,7 +168,7 @@ mod test {
         };
 
         let actual = ReferenceBuilder::new("ref-1")
-            .with_refernece("Endpoint/1")
+            .with_reference("Endpoint/1")
             .with_type("Endpoint")
             .with_display("ep-1")
             .build::<Endpoint>();

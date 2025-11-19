@@ -277,15 +277,15 @@ mod test {
         "#;
 
         let part_of = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .build::<Organization>();
 
         let ep_1 = ReferenceBuilder::default()
-            .with_refernece("Endpoint/1")
+            .with_reference("Endpoint/1")
             .build::<Endpoint>();
 
         let ep_2 = ReferenceBuilder::default()
-            .with_refernece("Endpoint/2")
+            .with_reference("Endpoint/2")
             .build::<Endpoint>();
 
         let endpoint = vec![ep_1, ep_2];
@@ -303,10 +303,10 @@ mod test {
     #[test]
     pub fn test_get_all_referenecs_should_succeed() {
         let part_of = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .build::<Organization>();
         let endpoints = ReferenceBuilder::default()
-            .with_refernece("Endpoint/1")
+            .with_reference("Endpoint/1")
             .build::<Endpoint>();
         let expected = vec![
             ReferenceTypes::from(&endpoints),

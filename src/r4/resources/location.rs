@@ -524,7 +524,7 @@ mod test {
             .with_altitude(0.0)
             .build();
         let managing_organization = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .with_display("Burgers University Medical Center")
             .build::<Organization>();
         let expected = LocationBuilder::new("location-1")
@@ -621,15 +621,15 @@ mod test {
     #[test]
     fn test_get_references_should_succeed() {
         let managing_org = ReferenceBuilder::default()
-            .with_refernece("Organization/1")
+            .with_reference("Organization/1")
             .build::<Organization>();
 
         let part_of = ReferenceBuilder::default()
-            .with_refernece("Location/2")
+            .with_reference("Location/2")
             .build::<Location>();
 
         let endpoint = ReferenceBuilder::default()
-            .with_refernece("Endpoint/1")
+            .with_reference("Endpoint/1")
             .build::<Endpoint>();
 
         let expected = vec![
