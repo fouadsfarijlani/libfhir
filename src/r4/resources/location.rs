@@ -620,28 +620,28 @@ mod test {
 
     #[test]
     fn test_get_references_should_succeed() {
-        let managing_org = ReferenceBuilder::default()
+        let managing_org_ref = ReferenceBuilder::default()
             .with_reference("Organization/1")
             .build::<Organization>();
 
-        let part_of = ReferenceBuilder::default()
+        let part_of_ref = ReferenceBuilder::default()
             .with_reference("Location/2")
             .build::<Location>();
 
-        let endpoint = ReferenceBuilder::default()
+        let endpoint_ref = ReferenceBuilder::default()
             .with_reference("Endpoint/1")
             .build::<Endpoint>();
 
         let expected = vec![
-            ReferenceTypes::from(&managing_org),
-            ReferenceTypes::from(&part_of),
-            ReferenceTypes::from(&endpoint),
+            ReferenceTypes::from(&managing_org_ref),
+            ReferenceTypes::from(&part_of_ref),
+            ReferenceTypes::from(&endpoint_ref),
         ];
 
         let location = LocationBuilder::default()
-            .with_endpoint(endpoint.clone())
-            .with_managing_organization(managing_org.clone())
-            .with_part_of(part_of.clone())
+            .with_endpoint(endpoint_ref.clone())
+            .with_managing_organization(managing_org_ref.clone())
+            .with_part_of(part_of_ref.clone())
             .build();
 
         let actual = location.get_references();
