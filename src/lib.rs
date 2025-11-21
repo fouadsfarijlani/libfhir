@@ -66,6 +66,9 @@ pub mod r4 {
 
         pub mod resource;
         pub use resource::*;
+
+        pub mod practitioner;
+        pub use practitioner::*;
     }
 }
 
