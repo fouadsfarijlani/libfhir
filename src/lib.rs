@@ -1,5 +1,16 @@
 pub mod r4 {
     pub mod elements {
+        pub mod common {
+            // this mod are backbone elemnets that do not have FHIR definition
+            // but are are used across multiple resources.
+            pub mod available_time;
+            pub use available_time::*;
+
+            pub mod not_available;
+            pub use not_available::*;
+        }
+        pub use common::*;
+
         pub mod complex_types {
             pub mod address;
             pub use address::*;
@@ -69,6 +80,9 @@ pub mod r4 {
 
         pub mod practitioner;
         pub use practitioner::*;
+
+        pub mod practitioner_role;
+        pub use practitioner_role::*;
     }
 }
 
