@@ -278,7 +278,11 @@ impl PractitionerRoleBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::elements::{Coding, DaysOfWeek};
+    
+
+    
+
+    use crate::elements::{Coding, DaysOfWeek, ReferenceBuilder};
 
     use super::*;
 
@@ -436,11 +440,226 @@ mod test {
 
     #[test]
     fn test_get_references_should_succeed() {
-        todo!()
+        let practitioner = Reference::<Practitioner> {
+            reference: Some("Practitioner/prac-1".to_string()),
+            ..Default::default()
+        };
+        let org = Reference::<Organization> {
+            reference: Some("Organization/1".to_string()),
+            ..Default::default()
+        };
+        let location_1 = Reference::<Location> {
+            reference: Some("Location/loc-1".to_string()),
+            ..Default::default()
+        };
+        let location_2 = Reference::<Location> {
+            reference: Some("Location/loc-2".to_string()),
+            ..Default::default()
+        };
+        let hcs_1 = Reference::<HealthcareService> {
+            reference: Some("HealthcareService/hs-1".to_string()),
+            ..Default::default()
+        };
+        let hcs_2 = Reference::<HealthcareService> {
+            reference: Some("HealthcareService/hs-2".to_string()),
+            ..Default::default()
+        };
+
+        let ep_1 = Reference::<Endpoint> {
+            reference: Some("Endpoint/ep-1".to_string()),
+            ..Default::default()
+        };
+        let ep_2 = Reference::<Endpoint> {
+            reference: Some("Endpoint/ep-2".to_string()),
+            ..Default::default()
+        };
+
+        let expected = vec![
+            ReferenceTypes::from(&practitioner),
+            ReferenceTypes::from(&org),
+            ReferenceTypes::from(&location_1),
+            ReferenceTypes::from(&location_2),
+            ReferenceTypes::from(&hcs_1),
+            ReferenceTypes::from(&hcs_2),
+            ReferenceTypes::from(&ep_1),
+            ReferenceTypes::from(&ep_2),
+        ];
+
+        let pr = PractitionerRoleBuilder::default()
+            .with_practitioner(practitioner.clone())
+            .with_organization(org.clone())
+            .add_location(location_1.clone())
+            .add_location(location_2.clone())
+            .add_healthcare_service(hcs_1.clone())
+            .add_healthcare_service(hcs_2.clone())
+            .add_endpoint(ep_1.clone())
+            .add_endpoint(ep_2.clone())
+            .build();
+
+        let actual = pr.get_references();
+
+        assert_eq!(expected, actual)
     }
 
     #[test]
     fn test_build_should_succeed() {
-        todo!()
+        let expected = PractitionerRole {
+            domain_resource: DomainResource {
+                resource: Resource {
+                    id: Some("pr1".to_string()),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            active: Some(true),
+            practitioner: Some(Reference::<Practitioner> {
+                reference: Some("Practitioner/prac1".to_string()),
+                ..Default::default()
+            }),
+            organization: Some(Reference::<Organization> {
+                reference: Some("Organization/org1".to_string()),
+                ..Default::default()
+            }),
+            code: Some(vec![CodeableConcept {
+                coding: Some(vec![Coding {
+                    system: Some("http://example.com".to_string()),
+                    code: Some("doctor".to_string()),
+                    display: Some("Doctor".to_string()),
+                    ..Default::default()
+                }]),
+                ..Default::default()
+            }]),
+            speciality: Some(vec![CodeableConcept {
+                coding: Some(vec![Coding {
+                    system: Some("http://example.com".to_string()),
+                    code: Some("cardiology".to_string()),
+                    display: Some("Cardiology".to_string()),
+                    ..Default::default()
+                }]),
+                ..Default::default()
+            }]),
+            location: Some(vec![Reference::<Location> {
+                reference: Some("Location/location1".to_string()),
+                ..Default::default()
+            }]),
+            healthcare_service: Some(vec![Reference::<HealthcareService> {
+                reference: Some("HealthcareService/hs1".to_string()),
+                ..Default::default()
+            }]),
+            telecom: Some(vec![ContactPoint {
+                system: Some("phone".to_string()),
+                value: Some("123456789".to_string()),
+                r#use: Some("work".to_string()),
+                ..Default::default()
+            }]),
+            available_time: Some(vec![AvailableTime {
+                days_of_week: Some(vec![DaysOfWeek::Mon, DaysOfWeek::Tue, DaysOfWeek::Wed]),
+                available_start_time: Some("08:00:00".to_string()),
+                available_end_time: Some("16:00:00".to_string()),
+                ..Default::default()
+            }]),
+            not_available: Some(vec![NotAvailable {
+                description: "Closed during holidays".to_string(),
+                during: Some(Period {
+                    start: Some("2025-12-24".to_string()),
+                    end: Some("2025-12-26".to_string()),
+                    ..Default::default()
+                }),
+                ..Default::default()
+            }]),
+            availability_exceptions: Some("Reduced hours during summer".to_string()),
+            endpoint: Some(vec![Reference::<Endpoint> {
+                reference: Some("Endpoint/ep1".to_string()),
+                ..Default::default()
+            }]),
+            identifier: Some(vec![Identifier {
+                system: Some("fancy".to_string()),
+                value: Some("ident-1".to_string()),
+                ..Default::default()
+            }]),
+            period: Some(Period {
+                start: Some("2025-01-01".to_string()),
+                end: Some("2026-01-01".to_string()),
+                ..Default::default()
+            }),
+        };
+
+        let actual = PractitionerRoleBuilder::new("pr1")
+            .with_active(true)
+            .with_practitioner(
+                ReferenceBuilder::default()
+                    .with_reference("Practitioner/prac1")
+                    .build::<Practitioner>(),
+            )
+            .with_organization(
+                ReferenceBuilder::default()
+                    .with_reference("Organization/org1")
+                    .build::<Organization>(),
+            )
+            .with_code(vec![CodeableConcept {
+                coding: Some(vec![Coding {
+                    system: Some("http://example.com".to_string()),
+                    code: Some("doctor".to_string()),
+                    display: Some("Doctor".to_string()),
+                    ..Default::default()
+                }]),
+                ..Default::default()
+            }])
+            .with_speciality(vec![CodeableConcept {
+                coding: Some(vec![Coding {
+                    system: Some("http://example.com".to_string()),
+                    code: Some("cardiology".to_string()),
+                    display: Some("Cardiology".to_string()),
+                    ..Default::default()
+                }]),
+                ..Default::default()
+            }])
+            .add_location(Reference::<Location> {
+                reference: Some("Location/location1".to_string()),
+                ..Default::default()
+            })
+            .add_healthcare_service(Reference::<HealthcareService> {
+                reference: Some("HealthcareService/hs1".to_string()),
+                ..Default::default()
+            })
+            .add_telecom(ContactPoint {
+                system: Some("phone".to_string()),
+                value: Some("123456789".to_string()),
+                r#use: Some("work".to_string()),
+                ..Default::default()
+            })
+            .add_available_time(AvailableTime {
+                days_of_week: Some(vec![DaysOfWeek::Mon, DaysOfWeek::Tue, DaysOfWeek::Wed]),
+                available_start_time: Some("08:00:00".to_string()),
+                available_end_time: Some("16:00:00".to_string()),
+                ..Default::default()
+            })
+            .add_not_available_time(NotAvailable {
+                description: "Closed during holidays".to_string(),
+                during: Some(Period {
+                    start: Some("2025-12-24".to_string()),
+                    end: Some("2025-12-26".to_string()),
+                    ..Default::default()
+                }),
+                ..Default::default()
+            })
+            .with_availability_exceptions("Reduced hours during summer")
+            .add_endpoint(Reference::<Endpoint> {
+                reference: Some("Endpoint/ep1".to_string()),
+                ..Default::default()
+            })
+            .add_identifier(Identifier {
+                system: Some("fancy".to_string()),
+                value: Some("ident-1".to_string()),
+                ..Default::default()
+            })
+            .with_period(Period {
+                start: Some("2025-01-01".to_string()),
+                end: Some("2026-01-01".to_string()),
+                ..Default::default()
+            })
+            .build();
+
+        assert_eq!(expected, actual)
     }
 }
