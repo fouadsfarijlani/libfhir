@@ -6,7 +6,8 @@ use crate::{
         NotAvailable, Period, Reference, ReferenceTypes,
     },
     resources::{
-        self, DomainResource, Endpoint, HealthcareService, Location, Organization, Practitioner, Resource, ResourceType,
+        self, DomainResource, Endpoint, HealthcareService, Location, Organization, Practitioner,
+        Resource, ResourceType,
     },
 };
 
@@ -27,7 +28,7 @@ pub struct PractitionerRole {
     pub telecom: Option<Vec<ContactPoint>>,
     pub available_time: Option<Vec<AvailableTime>>,
     pub not_available: Option<Vec<NotAvailable>>,
-    pub availability_exception: Option<String>,
+    pub availability_exceptions: Option<String>,
     pub endpoint: Option<Vec<Reference<Endpoint>>>,
 }
 
@@ -90,7 +91,7 @@ pub struct PractitionerRoleBuilder {
     telecom: Option<Vec<ContactPoint>>,
     available_time: Option<Vec<AvailableTime>>,
     not_available: Option<Vec<NotAvailable>>,
-    availability_exception: Option<String>,
+    availability_exceptions: Option<String>,
     endpoint: Option<Vec<Reference<Endpoint>>>,
 }
 
@@ -189,19 +190,24 @@ impl PractitionerRoleBuilder {
         self
     }
 
-    pub fn add_healthcare_service(
-        mut self,
-        healthcare_service: Reference<HealthcareService>,
-    ) -> Self {
+    pub fn add_healthcare_service(mut self, service: Reference<HealthcareService>) -> Self {
         match &mut self.healthcare_service {
-            Some(services) => services.push(healthcare_service),
-            None => self.healthcare_service = Some(vec![healthcare_service]),
+            Some(services) => services.push(service),
+            None => self.healthcare_service = Some(vec![service]),
         }
         self
     }
 
     pub fn with_telecom(mut self, telecoms: Vec<ContactPoint>) -> Self {
         self.telecom = Some(telecoms);
+        self
+    }
+
+    pub fn add_telecom(mut self, telecom: ContactPoint) -> Self {
+        match &mut self.telecom {
+            Some(tels) => tels.push(telecom),
+            None => self.telecom = Some(vec![telecom]),
+        }
         self
     }
 
@@ -228,6 +234,11 @@ impl PractitionerRoleBuilder {
             Some(na) => na.push(not_available),
             None => self.not_available = Some(vec![not_available]),
         }
+        self
+    }
+
+    pub fn with_availability_exceptions(mut self, exception: impl Into<String>) -> Self {
+        self.availability_exceptions = Some(exception.into());
         self
     }
 
@@ -259,8 +270,177 @@ impl PractitionerRoleBuilder {
             telecom: self.telecom,
             available_time: self.available_time,
             not_available: self.not_available,
-            availability_exception: self.availability_exception,
+            availability_exceptions: self.availability_exceptions,
             endpoint: self.endpoint,
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use crate::elements::{Coding, DaysOfWeek};
+
+    use super::*;
+
+    #[test]
+    fn test_from_json_should_succeed() {
+        let data = r#"{
+        "resourceType": "PractitionerRole",
+        "id": "pr1",
+        "active": true,
+        "practitioner": {
+            "reference": "Practitioner/prac1"
+        },
+        "organization": {
+            "reference": "Organization/org1"
+        },
+        "code": [
+            {
+                "coding": [
+                    {
+                        "system": "http://example.com",
+                        "code": "doctor",
+                        "display": "Doctor"
+                    }
+                ]
+            }
+        ],
+        "speciality": [
+            {
+                "coding": [
+                    {
+                        "system": "http://example.com",
+                        "code": "cardiology",
+                        "display": "Cardiology"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            {
+                "reference": "Location/location1"
+            }
+        ],
+        "healthcareService": [
+            {
+                "reference": "HealthcareService/hs1"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "123456789",
+                "use": "work"
+            }
+        ],
+        "availableTime": [
+            {
+                "daysOfWeek": ["mon", "tue", "wed"],
+                "availableStartTime": "08:00:00",
+                "availableEndTime": "16:00:00"
+            }
+        ],
+        "notAvailable": [
+            {
+                "description": "Closed during holidays",
+                "during": {
+                    "start": "2025-12-24",
+                    "end": "2025-12-26"
+                }
+            }
+        ],
+        "availabilityExceptions": "Reduced hours during summer",
+        "endpoint": [
+            {
+                "reference": "Endpoint/ep1"
+            }
+        ]
+    }"#;
+
+        let expected = PractitionerRole {
+            domain_resource: DomainResource {
+                resource: Resource {
+                    id: Some("pr1".to_string()),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            active: Some(true),
+            practitioner: Some(Reference::<Practitioner> {
+                reference: Some("Practitioner/prac1".to_string()),
+                ..Default::default()
+            }),
+            organization: Some(Reference::<Organization> {
+                reference: Some("Organization/org1".to_string()),
+                ..Default::default()
+            }),
+            code: Some(vec![CodeableConcept {
+                coding: Some(vec![Coding {
+                    system: Some("http://example.com".to_string()),
+                    code: Some("doctor".to_string()),
+                    display: Some("Doctor".to_string()),
+                    ..Default::default()
+                }]),
+                ..Default::default()
+            }]),
+            speciality: Some(vec![CodeableConcept {
+                coding: Some(vec![Coding {
+                    system: Some("http://example.com".to_string()),
+                    code: Some("cardiology".to_string()),
+                    display: Some("Cardiology".to_string()),
+                    ..Default::default()
+                }]),
+                ..Default::default()
+            }]),
+            location: Some(vec![Reference::<Location> {
+                reference: Some("Location/location1".to_string()),
+                ..Default::default()
+            }]),
+            healthcare_service: Some(vec![Reference::<HealthcareService> {
+                reference: Some("HealthcareService/hs1".to_string()),
+                ..Default::default()
+            }]),
+            telecom: Some(vec![ContactPoint {
+                system: Some("phone".to_string()),
+                value: Some("123456789".to_string()),
+                r#use: Some("work".to_string()),
+                ..Default::default()
+            }]),
+            available_time: Some(vec![AvailableTime {
+                days_of_week: Some(vec![DaysOfWeek::Mon, DaysOfWeek::Tue, DaysOfWeek::Wed]),
+                available_start_time: Some("08:00:00".to_string()),
+                available_end_time: Some("16:00:00".to_string()),
+                ..Default::default()
+            }]),
+            not_available: Some(vec![NotAvailable {
+                description: "Closed during holidays".to_string(),
+                during: Some(Period {
+                    start: Some("2025-12-24".to_string()),
+                    end: Some("2025-12-26".to_string()),
+                    ..Default::default()
+                }),
+                ..Default::default()
+            }]),
+            availability_exceptions: Some("Reduced hours during summer".to_string()),
+            endpoint: Some(vec![Reference::<Endpoint> {
+                reference: Some("Endpoint/ep1".to_string()),
+                ..Default::default()
+            }]),
+            ..Default::default()
+        };
+
+        let actual = PractitionerRole::from_json(data);
+
+        assert_eq!(expected, actual)
+    }
+
+    #[test]
+    fn test_get_references_should_succeed() {
+        todo!()
+    }
+
+    #[test]
+    fn test_build_should_succeed() {
+        todo!()
     }
 }

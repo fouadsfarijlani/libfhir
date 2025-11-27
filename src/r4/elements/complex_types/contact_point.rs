@@ -6,7 +6,7 @@ use crate::{
 };
 
 // TODO: Add ContactPointSystem
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 pub struct ContactPoint {
     #[serde(flatten)]
     pub element: Element,
