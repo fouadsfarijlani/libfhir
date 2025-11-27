@@ -142,7 +142,7 @@ impl HoursOfOperationBuilder {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone, Default)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Location {
     #[serde(flatten)]

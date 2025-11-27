@@ -2,13 +2,13 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     elements::{
-        Attachement, BackboneElement, CodeableConcept, ContactPoint, GetResourceReferences,
-        Identifier, Period, Reference, ReferenceTypes,
+        Attachement, AvailableTime, BackboneElement, CodeableConcept, ContactPoint,
+        GetResourceReferences, Identifier, NotAvailable, Reference, ReferenceTypes,
     },
     resources::{self, DomainResource, Endpoint, Location, Organization, ResourceType},
 };
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone, Default)]
 pub struct Eligibility {
     #[serde(flatten)]
     pub backbone_element: BackboneElement,
@@ -58,121 +58,7 @@ impl EligibilityBuilder {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
-#[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
-pub struct AvailableTime {
-    #[serde(flatten)]
-    pub backbone_element: BackboneElement,
-    pub days_of_week: Option<Vec<String>>, // TODO: Enum instead
-    pub all_day: Option<bool>,
-    pub available_start_time: Option<String>, // to be addressed later
-    pub available_end_time: Option<String>,   // to be addressed later
-}
-
-impl ResourceType for AvailableTime {
-    const TYPE: &'static str = "AvailableTime";
-}
-
-#[derive(Default)]
-pub struct AvailableTimeBuilder {
-    backbone_element: BackboneElement,
-    days_of_week: Option<Vec<String>>, // TODO: Enum instead
-    all_day: Option<bool>,
-    available_start_time: Option<String>, // to be addressed later
-    available_end_time: Option<String>,   // to be addressed later
-}
-
-impl AvailableTimeBuilder {
-    pub fn new(id: impl Into<String>) -> Self {
-        let mut builder = Self::default();
-        builder.backbone_element.element.id = Some(id.into());
-        builder
-    }
-
-    pub fn with_days_of_week(mut self, days_of_week: Vec<String>) -> Self {
-        self.days_of_week = Some(days_of_week);
-        self
-    }
-
-    pub fn add_day_of_week(mut self, day: impl Into<String>) -> Self {
-        match &mut self.days_of_week {
-            Some(dow) => dow.push(day.into()),
-            None => self.days_of_week = Some(vec![day.into()]),
-        }
-        self
-    }
-
-    pub fn with_all_day(mut self, all_day: bool) -> Self {
-        self.all_day = Some(all_day);
-        self
-    }
-
-    pub fn with_available_start_time(mut self, start_time: impl Into<String>) -> Self {
-        self.available_start_time = Some(start_time.into());
-        self
-    }
-
-    pub fn with_available_end_time(mut self, end_time: impl Into<String>) -> Self {
-        self.available_end_time = Some(end_time.into());
-        self
-    }
-
-    pub fn build(self) -> AvailableTime {
-        AvailableTime {
-            backbone_element: self.backbone_element,
-            days_of_week: self.days_of_week,
-            all_day: self.all_day,
-            available_start_time: self.available_start_time,
-            available_end_time: self.available_end_time,
-        }
-    }
-}
-
-#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
-pub struct NotAvailable {
-    #[serde(flatten)]
-    pub backbone_element: BackboneElement,
-    pub description: String,
-    pub during: Option<Period>,
-}
-
-impl ResourceType for NotAvailable {
-    const TYPE: &'static str = "NotAvailable";
-}
-#[derive(Default)]
-pub struct NotAvailableBuilder {
-    backbone_element: BackboneElement,
-    description: String,
-    during: Option<Period>,
-}
-
-impl NotAvailableBuilder {
-    pub fn new(id: impl Into<String>) -> Self {
-        let mut builder = Self::default();
-        builder.backbone_element.element.id = Some(id.into());
-        builder
-    }
-
-    pub fn with_desscription(mut self, description: impl Into<String>) -> Self {
-        self.description = description.into();
-        self
-    }
-
-    pub fn with_during(mut self, during: Period) -> Self {
-        self.during = Some(during);
-        self
-    }
-
-    pub fn build(self) -> NotAvailable {
-        NotAvailable {
-            backbone_element: self.backbone_element,
-            description: self.description,
-            during: self.during,
-        }
-    }
-}
-
-#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone, Default)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct HealthcareService {
     #[serde(flatten)]
@@ -549,13 +435,10 @@ impl HealthcareServiceBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::{
-        elements::{
-            CodeableConceptBuilder, CodingBuilder, ContactPointBuilder, Element, PeriodBuilder,
-            ReferenceBuilder,
-        },
-        resources::Resource,
-    };
+    use crate::elements::{
+            AvailableTimeBuilder, CodeableConceptBuilder, CodingBuilder, ContactPointBuilder,
+            DaysOfWeek, Element, NotAvailableBuilder, Period, PeriodBuilder, ReferenceBuilder,
+        };
 
     use super::*;
 
@@ -727,11 +610,11 @@ mod test {
         let referral_method = CodeableConceptBuilder::default().with_text("Phone").build();
         let available_time = AvailableTimeBuilder::default()
             .with_days_of_week(vec![
-                "mon".to_string(),
-                "tue".to_string(),
-                "wed".to_string(),
-                "thu".to_string(),
-                "fri".to_string(),
+                DaysOfWeek::Mon,
+                DaysOfWeek::Tue,
+                DaysOfWeek::Wed,
+                DaysOfWeek::Thu,
+                DaysOfWeek::Fri,
             ])
             .with_available_start_time("08:00")
             .with_available_end_time("17:00")
@@ -823,71 +706,27 @@ mod test {
     fn test_build_should_succeeed() {
         let expected = HealthcareService {
             domain_resource: DomainResource {
-                resource: Resource {
-                    id: None,
-                    implicit_rules: None,
-                    meta: None,
-                },
-                text: None,
-                contained: None,
-                exnetions: None,
+                ..Default::default()
             },
-            identifier: None,
-            active: None,
-            provided_by: None,
-            category: None,
-            r#type: None,
-            location: None,
-            name: None,
-            comment: None,
-            extra_details: None,
-            photo: None,
-            telecom: None,
-            coverage_area: None,
-            service_provision_code: None,
             eligibility: Some(vec![Eligibility {
-                backbone_element: BackboneElement {
-                    element: Element {
-                        id: None,
-                        extention: None,
-                    },
-                    modifier_extensions: None,
-                },
                 code: Some(CodeableConcept {
-                    coding: None,
-                    element: Element {
-                        id: None,
-                        extention: None,
-                    },
                     text: Some("some text".to_string()),
+                    ..Default::default()
                 }),
-                comment: None,
+                ..Default::default()
             }]),
-            program: None,
-            characteristic: None,
-            communication: None,
-            referral_method: None,
-            appointment_required: None,
             available_time: Some(vec![AvailableTime {
                 backbone_element: BackboneElement {
-                    element: Element {
-                        id: None,
-                        extention: None,
-                    },
-                    modifier_extensions: None,
+                    ..Default::default()
                 },
-                days_of_week: Some(vec!["mon".to_string(), "thu".to_string()]),
+                days_of_week: Some(vec![DaysOfWeek::Mon, DaysOfWeek::Thu]),
                 all_day: Some(false),
                 available_start_time: Some("08:00".to_string()),
                 available_end_time: Some("17:00".to_string()),
             }]),
             not_available: Some(vec![NotAvailable {
                 backbone_element: BackboneElement {
-                    element: Element {
-                        id: None,
-                        extention: None,
-                    },
-                    modifier_extensions: None,
+                    ..Default::default()
                 },
                 description: "closed on holidays".to_string(),
                 during: Some(Period {
@@ -899,8 +738,7 @@ mod test {
                     end: Some("2030-01-01".to_string()),
                 }),
             }]),
-            availability_exceptions: None,
-            endpoint: None,
+            ..Default::default()
         };
         let eligibility = EligibilityBuilder::default()
             .with_code(
@@ -910,8 +748,8 @@ mod test {
             )
             .build();
         let available_time = AvailableTimeBuilder::default()
-            .add_day_of_week("mon")
-            .add_day_of_week("thu")
+            .add_day_of_week(DaysOfWeek::Mon)
+            .add_day_of_week(DaysOfWeek::Thu)
             .with_all_day(false)
             .with_available_start_time("08:00")
             .with_available_end_time("17:00")
