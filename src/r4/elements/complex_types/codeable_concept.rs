@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{Coding, Element},
     resources::{self, ResourceType},
 };
@@ -9,7 +9,11 @@ use crate::{
 pub struct CodeableConcept {
     #[serde(flatten)]
     pub element: Element,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub coding: Option<Vec<Coding>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub text: Option<String>,
 }
 
@@ -71,7 +75,7 @@ impl CodeableConceptBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::elements::CodingBuilder;
+    use crate::r4::elements::CodingBuilder;
 
     use super::*;
 

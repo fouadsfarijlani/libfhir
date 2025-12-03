@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::Element,
     resources::{self, ResourceType},
 };
@@ -10,10 +10,20 @@ use crate::{
 pub struct Coding {
     #[serde(flatten)]
     pub element: Element,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub system: Option<String>, // to be resolved later
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub code: Option<String>, // to be resolved later
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub display: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub user_selected: Option<bool>,
 }
 

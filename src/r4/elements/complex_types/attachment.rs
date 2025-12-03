@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::Element,
     resources::{self, ResourceType},
 };
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
+#[derive(Debug, Default, Serialize, Deserialize, PartialEq, Clone)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Attachement {
     #[serde(flatten)]

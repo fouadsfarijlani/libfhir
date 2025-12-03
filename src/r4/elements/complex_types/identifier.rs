@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{CodeableConcept, Element, Period, Reference},
     resources::{self, Organization, ResourceType},
 };
@@ -9,11 +9,23 @@ use crate::{
 pub struct Identifier {
     #[serde(flatten)]
     pub element: Element,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub r#use: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub r#type: Option<CodeableConcept>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub system: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub value: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub period: Option<Period>, // to be resolved
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub assigner: Option<Reference<Organization>>,
 }
 
