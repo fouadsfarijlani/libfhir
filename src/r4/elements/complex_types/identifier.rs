@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{CodeableConcept, Element, Period, Reference},
     resources::{self, Organization, ResourceType},
 };

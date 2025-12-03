@@ -2,7 +2,7 @@ use std::vec;
 
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{
         Address, BackboneElement, CodeableConcept, Coding, ContactPoint, GetResourceReferences,
         Identifier, Reference, ReferenceTypes,
@@ -375,9 +375,9 @@ impl LocationBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::{
+    use crate::r4::{
         elements::{
-            AddressBuilder, CodeableConceptBuilder, CodingBuilder, ContactPointBuilder, Element,
+            AddressBuilder, CodeableConceptBuilder, CodingBuilder, ContactPointBuilder,
             IdentifierBuilder, ReferenceBuilder,
         },
         resources::Resource,
@@ -552,61 +552,26 @@ mod test {
             domain_resource: DomainResource {
                 resource: Resource {
                     id: Some("location-1".to_string()),
-                    implicit_rules: None,
-                    meta: None,
+                    ..Default::default()
                 },
-                text: None,
-                contained: None,
-                exnetions: None,
+                ..Default::default()
             },
             alias: Some(vec!["alias".to_string()]),
             address: Some(Address {
-                element: Element {
-                    id: None,
-                    extention: None,
-                },
-                r#use: Some("official".to_string()),
-                r#type: None,
-                text: None,
-                city: None,
-                line: None,
-                district: None,
                 state: Some("Arizona".to_string()),
-                period: None,
-                postal_code: None,
-                country: None,
+                r#use: Some("official".to_string()),
+                ..Default::default()
             }),
-            availability_exceptions: None,
+
             description: Some("text".to_string()),
-            identifier: None,
             status: Some("active".to_string()),
-            hours_of_operation: None,
-            managing_organization: None,
-            endpoint: None,
-            operational_status: None,
-            part_of: None,
-            mode: None,
-            name: None,
-            physical_type: None,
-            r#type: None,
-            telecom: None,
-            position: None,
+            ..Default::default()
         };
         let actual_address = Address {
-            element: Element {
-                id: None,
-                extention: None,
-            },
             r#use: Some("official".to_string()),
-            r#type: None,
-            text: None,
-            city: None,
-            line: None,
-            district: None,
+
             state: Some("Arizona".to_string()),
-            period: None,
-            postal_code: None,
-            country: None,
+            ..Default::default()
         };
         let actual = LocationBuilder::new("location-1")
             .with_alias(vec!["alias".to_string()])

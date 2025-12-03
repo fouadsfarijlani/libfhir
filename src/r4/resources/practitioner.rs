@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{
         Address, Attachement, BackboneElement, CodeableConcept, ContactPoint, Element,
         GetResourceReferences, HumanName, Identifier, Period, Reference, ReferenceTypes,
@@ -308,7 +308,7 @@ impl PractitionerBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::elements::{
+    use crate::r4::elements::{
         AddressBuilder, AttachmentBuilder, CodeableConceptBuilder, ContactPointBuilder,
         HumanNameBuilder, IdentifierBuilder, ReferenceBuilder,
     };
