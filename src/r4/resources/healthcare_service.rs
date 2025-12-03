@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{
         Attachement, AvailableTime, BackboneElement, CodeableConcept, ContactPoint,
         GetResourceReferences, Identifier, NotAvailable, Reference, ReferenceTypes,
@@ -99,7 +99,7 @@ impl HealthcareService {
 }
 
 impl GetResourceReferences for HealthcareService {
-    fn get_references(&self) -> Vec<crate::elements::ReferenceTypes> {
+    fn get_references(&self) -> Vec<ReferenceTypes> {
         let mut references = Vec::<ReferenceTypes>::new();
 
         if let Some(pb) = &self.provided_by {
@@ -436,9 +436,9 @@ impl HealthcareServiceBuilder {
 #[cfg(test)]
 mod test {
     use crate::elements::{
-            AvailableTimeBuilder, CodeableConceptBuilder, CodingBuilder, ContactPointBuilder,
-            DaysOfWeek, Element, NotAvailableBuilder, Period, PeriodBuilder, ReferenceBuilder,
-        };
+        AvailableTimeBuilder, CodeableConceptBuilder, CodingBuilder, ContactPointBuilder,
+        DaysOfWeek, Element, NotAvailableBuilder, Period, PeriodBuilder, ReferenceBuilder,
+    };
 
     use super::*;
 

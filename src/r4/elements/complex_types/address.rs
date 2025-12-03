@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{CodeableConcept, Element, Period},
     resources::{self, ResourceType},
 };
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
 pub struct Address {
     #[serde(flatten)]

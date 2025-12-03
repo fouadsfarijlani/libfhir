@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{
         AvailableTime, CodeableConcept, ContactPoint, GetResourceReferences, Identifier,
         NotAvailable, Period, Reference, ReferenceTypes,
@@ -278,9 +278,6 @@ impl PractitionerRoleBuilder {
 
 #[cfg(test)]
 mod test {
-    
-
-    
 
     use crate::elements::{Coding, DaysOfWeek, ReferenceBuilder};
 

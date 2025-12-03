@@ -63,14 +63,26 @@ pub mod r4 {
         pub mod healthcare_service;
         pub use healthcare_service::*;
 
-        pub mod endpoint;
-        pub use endpoint::*;
+        pub mod endpoint {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use endpoint::builder::*;
+        pub use endpoint::resource::*;
 
-        pub mod organization;
-        pub use organization::*;
+        pub mod organization {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use organization::builder::*;
+        pub use organization::resource::*;
 
-        pub mod organization_affiliation;
-        pub use organization_affiliation::*;
+        pub mod organization_affiliation {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use organization_affiliation::builder::*;
+        pub use organization_affiliation::resource::*;
 
         pub mod location;
         pub use location::*;
@@ -85,5 +97,3 @@ pub mod r4 {
         pub use practitioner_role::*;
     }
 }
-
-pub use r4::*;
