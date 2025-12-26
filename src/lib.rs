@@ -60,30 +60,56 @@ pub mod r4 {
         pub use reference::*;
     }
     pub mod resources {
-        pub mod healthcare_service;
-        pub use healthcare_service::*;
+        pub mod healthcare_service {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use healthcare_service::builder::*;
+        pub use healthcare_service::resource::*;
 
-        pub mod endpoint;
-        pub use endpoint::*;
+        pub mod endpoint {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use endpoint::builder::*;
+        pub use endpoint::resource::*;
 
-        pub mod organization;
-        pub use organization::*;
+        pub mod organization {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use organization::builder::*;
+        pub use organization::resource::*;
 
-        pub mod organization_affiliation;
-        pub use organization_affiliation::*;
+        pub mod organization_affiliation {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use organization_affiliation::builder::*;
+        pub use organization_affiliation::resource::*;
 
-        pub mod location;
-        pub use location::*;
+        pub mod location {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use location::builder::*;
+        pub use location::resource::*;
 
         pub mod resource;
         pub use resource::*;
 
-        pub mod practitioner;
-        pub use practitioner::*;
+        pub mod practitioner {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use practitioner::builder::*;
+        pub use practitioner::resource::*;
 
-        pub mod practitioner_role;
-        pub use practitioner_role::*;
+        pub mod practitioner_role {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use practitioner_role::builder::*;
+        pub use practitioner_role::resource::*;
     }
 }
-
-pub use r4::*;

@@ -2,7 +2,7 @@ use std::marker::PhantomData;
 
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{complex_types::Identifier, element::Element},
     resources::{
         self, Endpoint, HealthcareService, Location, Organization, Practitioner, ResourceType,
@@ -14,9 +14,17 @@ use crate::{
 pub struct Reference<T: ResourceType> {
     #[serde(flatten)]
     pub element: Element,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub reference: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub r#type: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub display: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub identifier: Option<Vec<Identifier>>,
 
     #[serde(skip)]

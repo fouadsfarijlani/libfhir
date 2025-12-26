@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{Element, Period},
     resources::{self, ResourceType},
 };
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 pub struct HumanName {
     #[serde(flatten)]
     pub element: Element,
@@ -126,7 +126,7 @@ impl HumanNameBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::elements::PeriodBuilder;
+    use crate::r4::elements::PeriodBuilder;
 
     use super::*;
 
