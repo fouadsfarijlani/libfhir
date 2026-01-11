@@ -1,0 +1,146 @@
+{
+  "resourceType": "HealthcareService",
+  "id": "healthcare-service-1",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://example.org/healthcare-services",
+      "value": "HCS-001"
+    }
+  ],
+  "active": true,
+  "providedBy": {
+    "reference": "Organization/org-1",
+    "display": "Burgers University Medical Center"
+  },
+  "category": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/service-category",
+          "code": "17",
+          "display": "Emergency"
+        }
+      ],
+      "text": "Emergency Services"
+    }
+  ],
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/service-type",
+          "code": "57",
+          "display": "Emergency Medicine"
+        }
+      ],
+      "text": "Emergency Medicine"
+    }
+  ],
+  "specialty": [
+    {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "773568002",
+          "display": "Emergency medicine"
+        }
+      ]
+    }
+  ],
+  "location": [
+    {
+      "reference": "Location/location-1",
+      "display": "Emergency Department"
+    }
+  ],
+  "name": "Emergency Department",
+  "comment": "24/7 emergency care for all ages",
+  "extraDetails": "Wheelchair accessible. Interpreter services available.",
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "+1-555-111-2222",
+      "use": "work"
+    }
+  ],
+  "coverageArea": [
+    {
+      "reference": "Location/region-1",
+      "display": "Metropolitan Area"
+    }
+  ],
+  "serviceProvisionCode": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/service-provision-conditions",
+          "code": "free",
+          "display": "Free"
+        }
+      ]
+    }
+  ],
+  "eligibility": [
+    {
+      "code": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/benefit-eligibility",
+            "code": "eligible",
+            "display": "Eligible"
+          }
+        ],
+        "text": "Eligible patients"
+      },
+      "comment": "All patients accepted"
+    }
+  ],
+  "program": [
+    {
+      "coding": [
+        {
+          "system": "http://example.org/programs",
+          "code": "ED-CARE",
+          "display": "Emergency Care Program"
+        }
+      ]
+    }
+  ],
+  "characteristic": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/service-characteristic",
+          "code": "wheelchair",
+          "display": "Wheelchair accessible"
+        }
+      ]
+    }
+  ],
+  "appointmentRequired": false,
+  "availableTime": [
+    {
+      "daysOfWeek": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "allDay": true
+    }
+  ],
+  "notAvailable": [
+    {
+      "description": "Closed for annual maintenance",
+      "during": {
+        "start": "2025-12-25",
+        "end": "2025-12-26"
+      }
+    }
+  ],
+  "availabilityExceptions": "Closed on major public holidays"
+}

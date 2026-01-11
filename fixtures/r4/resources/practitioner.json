@@ -1,0 +1,95 @@
+{
+  "resourceType": "Practitioner",
+  "id": "practitioner-1",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://example.org/practitioners",
+      "value": "PRAC-001"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "use": "official",
+      "family": "Doe",
+      "given": [
+        "John"
+      ],
+      "prefix": [
+        "Dr"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "+1-555-777-8888",
+      "use": "work"
+    },
+    {
+      "system": "email",
+      "value": "john.doe@bumc.example.org",
+      "use": "work"
+    }
+  ],
+  "address": [
+    {
+      "use": "work",
+      "line": [
+        "456 Health St"
+      ],
+      "city": "PleasantVille",
+      "state": "Vic",
+      "postalCode": "3999",
+      "country": "Australia"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1980-04-15",
+  "photo": [
+    {
+      "contentType": "image/jpeg",
+      "url": "https://example.org/photos/practitioner-1.jpg",
+      "title": "Profile photo"
+    }
+  ],
+  "qualification": [
+    {
+      "identifier": [
+        {
+          "system": "http://example.org/licenses",
+          "value": "LIC-123456"
+        }
+      ],
+      "code": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+            "code": "MD",
+            "display": "Doctor of Medicine"
+          }
+        ],
+        "text": "MD"
+      },
+      "period": {
+        "start": "2010-01-01"
+      },
+      "issuer": {
+        "reference": "Organization/org-licensing-board",
+        "display": "Medical Licensing Board"
+      }
+    }
+  ],
+  "communication": [
+    {
+      "coding": [
+        {
+          "system": "urn:ietf:bcp:47",
+          "code": "en",
+          "display": "English"
+        }
+      ]
+    }
+  ]
+}

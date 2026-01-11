@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{Element, Quantity},
     resources::{self, ResourceType},
 };
@@ -104,7 +104,7 @@ impl SampledDataBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::elements::QuantityBuilder;
+    use crate::r4::elements::QuantityBuilder;
 
     use super::*;
 

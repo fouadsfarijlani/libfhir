@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{BackboneElement, Period},
     resources::{self, ResourceType},
 };
@@ -58,7 +58,7 @@ impl NotAvailableBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::elements::{Element, PeriodBuilder};
+    use crate::r4::elements::{Element, PeriodBuilder};
 
     use super::*;
 

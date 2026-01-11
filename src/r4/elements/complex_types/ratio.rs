@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{Element, Quantity},
     resources::{self, ResourceType},
 };
@@ -63,7 +63,7 @@ impl RatioBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::elements::{Element, Quantity, QuantityBuilder, Ratio, RatioBuilder};
+    use crate::r4::elements::{Element, Quantity, QuantityBuilder, Ratio, RatioBuilder};
 
     #[test]
     fn test_from_json_should_succeed() {

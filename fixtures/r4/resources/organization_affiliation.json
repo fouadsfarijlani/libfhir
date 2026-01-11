@@ -1,0 +1,75 @@
+{
+  "resourceType": "OrganizationAffiliation",
+  "id": "org-affiliation-1",
+  "active": true,
+  "period": {
+    "start": "2025-01-01",
+    "end": "2026-01-01"
+  },
+  "organization": {
+    "reference": "Organization/org-1",
+    "display": "Burgers University Medical Center"
+  },
+  "participatingOrganization": {
+    "reference": "Organization/org-2",
+    "display": "Regional Specialty Clinic"
+  },
+  "network": [
+    {
+      "reference": "Organization/org-network-1",
+      "display": "Burgers Health Network"
+    }
+  ],
+  "code": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-role",
+          "code": "member",
+          "display": "Network Member"
+        }
+      ],
+      "text": "Network membership"
+    }
+  ],
+  "specialty": [
+    {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "408443003",
+          "display": "General medical practice"
+        }
+      ]
+    }
+  ],
+  "location": [
+    {
+      "reference": "Location/location-1",
+      "display": "Main Campus"
+    }
+  ],
+  "healthcareService": [
+    {
+      "reference": "HealthcareService/healthcare-service-1",
+      "display": "Emergency Department"
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "+1-555-333-4444",
+      "use": "work"
+    },
+    {
+      "system": "email",
+      "value": "affiliations@bumc.example.org",
+      "use": "work"
+    }
+  ],
+  "endpoint": [
+    {
+      "reference": "Endpoint/endpoint-1"
+    }
+  ]
+}

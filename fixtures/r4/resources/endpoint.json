@@ -1,0 +1,54 @@
+{
+  "resourceType": "Endpoint",
+  "id": "endpoint-1",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://example.org/endpoints",
+      "value": "ENDPOINT-001"
+    }
+  ],
+  "status": "active",
+  "connectionType": {
+    "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+    "code": "hl7-fhir-rest",
+    "display": "FHIR REST"
+  },
+  "name": "FHIR REST Endpoint",
+  "managingOrganization": {
+    "reference": "Organization/org-1",
+    "display": "Burgers University Medical Center"
+  },
+  "contact": [
+    {
+      "system": "email",
+      "value": "fhir-support@bumc.example.org",
+      "use": "work"
+    }
+  ],
+  "period": {
+    "start": "2025-01-01",
+    "end": "2026-01-01"
+  },
+  "payloadType": [
+    {
+      "coding": [
+        {
+          "system": "http://hl7.org/fhir/resource-types",
+          "code": "Bundle",
+          "display": "Bundle"
+        }
+      ],
+      "text": "FHIR Bundle"
+    }
+  ],
+  "payloadMimeType": [
+    "application/fhir+json",
+    "application/json"
+  ],
+  "address": "https://fhir.bumc.example.org/r4",
+  "header": [
+    "Authorization: Bearer {token}",
+    "Accept: application/fhir+json"
+  ]
+}
