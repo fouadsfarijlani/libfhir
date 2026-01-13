@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::{Element, Period},
     resources::{self, ResourceType},
 };
@@ -10,10 +10,20 @@ use crate::{
 pub struct ContactPoint {
     #[serde(flatten)]
     pub element: Element,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub system: Option<String>, // to be resolved,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub value: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub r#use: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub rank: Option<u32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub period: Option<Period>,
 }
 
@@ -87,7 +97,7 @@ impl ContactPointBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::elements::PeriodBuilder;
+    use crate::r4::elements::PeriodBuilder;
 
     use super::*;
 

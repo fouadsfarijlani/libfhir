@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::r4::{
     elements::BackboneElement,
     resources::{self, ResourceType},
 };
@@ -96,7 +96,7 @@ impl AvailableTimeBuilder {
 #[cfg(test)]
 mod test {
 
-    use crate::elements::Element;
+    use crate::r4::elements::Element;
 
     use super::*;
 
