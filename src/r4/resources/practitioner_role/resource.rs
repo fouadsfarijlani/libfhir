@@ -16,19 +16,47 @@ use crate::r4::{
 pub struct PractitionerRole {
     #[serde(flatten)]
     pub domain_resource: DomainResource,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub identifier: Option<Vec<Identifier>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub active: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub period: Option<Period>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub practitioner: Option<Reference<Practitioner>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub organization: Option<Reference<Organization>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub code: Option<Vec<CodeableConcept>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub speciality: Option<Vec<CodeableConcept>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub location: Option<Vec<Reference<Location>>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub healthcare_service: Option<Vec<Reference<HealthcareService>>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub telecom: Option<Vec<ContactPoint>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub available_time: Option<Vec<AvailableTime>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub not_available: Option<Vec<NotAvailable>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub availability_exceptions: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub endpoint: Option<Vec<Reference<Endpoint>>>,
 }
 

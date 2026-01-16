@@ -12,9 +12,16 @@ use crate::r4::{
 pub struct PractitionerQualification {
     #[serde(flatten)]
     pub backbone_element: BackboneElement,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub identifier: Option<Vec<Identifier>>,
+
     pub code: CodeableConcept,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub period: Option<Period>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub issuer: Option<Reference<Organization>>,
 }
 
@@ -32,20 +39,41 @@ pub enum Gender {
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
-#[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
+#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
 pub struct Practitioner {
     #[serde(flatten)]
     pub domain_resource: DomainResource,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub identifier: Option<Vec<Identifier>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub active: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<Vec<HumanName>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub telecom: Option<Vec<ContactPoint>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub address: Option<Vec<Address>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub gender: Option<Gender>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub birth_date: Option<String>, // Date for later
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub photo: Option<Vec<Attachement>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub qualification: Option<Vec<PractitionerQualification>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub communication: Option<Vec<CodeableConcept>>,
+
     pub resource_type: String,
 }
 
@@ -78,6 +106,14 @@ impl Practitioner {
     pub fn from_json(data: &str) -> Self {
         resources::from_json(data)
     }
+
+    pub fn to_json_string(&self) -> String {
+        serde_json::to_string_pretty(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    }
+
+    pub fn to_json_value(&self) -> serde_json::Value {
+        serde_json::to_value(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    }
 }
 
 impl GetResourceReferences for Practitioner {
@@ -98,6 +134,8 @@ impl GetResourceReferences for Practitioner {
 
 #[cfg(test)]
 mod test {
+
+    use serde_json::json;
 
     use crate::r4::{
         elements::{Coding, ReferenceBuilder},
@@ -216,12 +254,53 @@ mod test {
 
     #[test]
     fn test_to_json_string_should_succeed() {
-        todo!()
+        let expected = json!({
+            "resourceType": "Practitioner",
+            "id": "prac-1",
+            "gender": "female"
+        });
+
+        let practitioner = Practitioner {
+            domain_resource: DomainResource {
+                resource: Resource {
+                    id: Some("prac-1".to_string()),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            gender: Some(Gender::Female),
+            ..Default::default()
+        };
+
+        let value = practitioner.to_json_string();
+
+        let actual: serde_json::Value = serde_json::from_str(&value.as_str()).unwrap();
+
+        assert_eq!(expected, actual)
     }
 
     #[test]
     fn test_to_json_value_should_succeed() {
-        todo!()
+        let expected = json!({
+            "resourceType": "Practitioner",
+            "id": "prac-1",
+            "gender": "female"
+        });
+        let practitioner = Practitioner {
+            domain_resource: DomainResource {
+                resource: Resource {
+                    id: Some("prac-1".to_string()),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            gender: Some(Gender::Female),
+            ..Default::default()
+        };
+
+        let actual = practitioner.to_json_value();
+
+        assert_eq!(expected, actual)
     }
 
     #[test]
