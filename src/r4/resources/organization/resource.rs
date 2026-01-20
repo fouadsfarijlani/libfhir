@@ -289,10 +289,7 @@ mod test {
             .endpoint(endpoint)
             .build();
 
-        let actual = match org.to_json_value() {
-            Ok(res) => res,
-            Err(e) => panic!("{e:?}"),
-        };
+        let actual = org.to_json_value().unwrap();
 
         assert_eq!(expected, actual)
     }

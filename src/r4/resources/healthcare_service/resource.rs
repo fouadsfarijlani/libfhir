@@ -380,7 +380,7 @@ mod test {
             ..Default::default()
         };
 
-        let actual = data.to_json_value().unwrap_or_else(|e| panic!("{e:?}"));
+        let actual = data.to_json_value().unwrap();
 
         assert_eq!(expected, actual)
     }
