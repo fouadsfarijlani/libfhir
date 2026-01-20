@@ -1,13 +1,16 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::r4::{
-    elements::{
-        CodeableConcept, ContactPoint, GetResourceReferences, Identifier, Period, Reference,
-        ReferenceTypes,
-    },
-    resources::{
-        self, DomainResource, Endpoint, HealthcareService, Location, Organization, ResourceType,
+use crate::{
+    FhirError,
+    r4::{
+        elements::{
+            CodeableConcept, ContactPoint, GetResourceReferences, Identifier, Period, Reference,
+            ReferenceTypes,
+        },
+        resources::{
+            self, DomainResource, Endpoint, HealthcareService, Location, Organization, ResourceType,
+        },
     },
 };
 
@@ -89,12 +92,12 @@ impl OrganizationAffiliation {
         resources::from_json(data)
     }
 
-    pub fn to_json_value(&self) -> Value {
-        serde_json::to_value(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    pub fn to_json_value(&self) -> Result<Value, FhirError> {
+        Ok(serde_json::to_value(&self)?)
     }
 
-    pub fn to_json_string(&self) -> String {
-        serde_json::to_string_pretty(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    pub fn to_json_string(&self) -> Result<String, FhirError> {
+        Ok(serde_json::to_string_pretty(&self)?)
     }
 }
 
@@ -276,7 +279,10 @@ mod test {
             ..Default::default()
         };
 
-        let actual = data.to_json_value();
+        let actual = match data.to_json_value() {
+            Ok(res) => res,
+            Err(e) => panic!("{e:?}"),
+        };
 
         assert_eq!(expected, actual)
     }
@@ -315,7 +321,7 @@ mod test {
             ..Default::default()
         };
 
-        let value = data.to_json_string();
+        let value = data.to_json_string().unwrap_or_else(|e| panic!("{e:?}"));
         let actual: Value = serde_json::from_str(&value).unwrap();
 
         assert_eq!(expected, actual)

@@ -1,11 +1,14 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::{
-        Address, Attachement, BackboneElement, CodeableConcept, ContactPoint,
-        GetResourceReferences, HumanName, Identifier, Period, Reference, ReferenceTypes,
+use crate::{
+    FhirError,
+    r4::{
+        elements::{
+            Address, Attachement, BackboneElement, CodeableConcept, ContactPoint,
+            GetResourceReferences, HumanName, Identifier, Period, Reference, ReferenceTypes,
+        },
+        resources::{self, DomainResource, Organization, ResourceType},
     },
-    resources::{self, DomainResource, Organization, ResourceType},
 };
 
 #[derive(Debug, Default, Serialize, Deserialize, PartialEq, Clone)]
@@ -107,12 +110,12 @@ impl Practitioner {
         resources::from_json(data)
     }
 
-    pub fn to_json_string(&self) -> String {
-        serde_json::to_string_pretty(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    pub fn to_json_string(&self) -> Result<String, FhirError> {
+        Ok(serde_json::to_string_pretty(&self)?)
     }
 
-    pub fn to_json_value(&self) -> serde_json::Value {
-        serde_json::to_value(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    pub fn to_json_value(&self) -> Result<serde_json::Value, FhirError> {
+        Ok(serde_json::to_value(&self)?)
     }
 }
 
@@ -272,7 +275,9 @@ mod test {
             ..Default::default()
         };
 
-        let value = practitioner.to_json_string();
+        let value = practitioner
+            .to_json_string()
+            .unwrap_or_else(|e| panic!("{e:?}"));
 
         let actual: serde_json::Value = serde_json::from_str(&value.as_str()).unwrap();
 
@@ -298,7 +303,9 @@ mod test {
             ..Default::default()
         };
 
-        let actual = practitioner.to_json_value();
+        let actual = practitioner
+            .to_json_value()
+            .unwrap_or_else(|e| panic!("{e:?}"));
 
         assert_eq!(expected, actual)
     }

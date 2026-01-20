@@ -1,11 +1,14 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::{
-        Address, BackboneElement, CodeableConcept, ContactPoint, GetResourceReferences, HumanName,
-        Identifier, Reference, ReferenceTypes,
+use crate::{
+    FhirError,
+    r4::{
+        elements::{
+            Address, BackboneElement, CodeableConcept, ContactPoint, GetResourceReferences,
+            HumanName, Identifier, Reference, ReferenceTypes,
+        },
+        resources::{DomainResource, Endpoint, ResourceType},
     },
-    resources::{DomainResource, Endpoint, ResourceType},
 };
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone, Default)]
@@ -100,16 +103,12 @@ impl Organization {
         }
     }
 
-    pub fn to_json_value(&self) -> serde_json::Value {
-        serde_json::to_value(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    pub fn to_json_value(&self) -> Result<serde_json::Value, FhirError> {
+        Ok(serde_json::to_value(&self)?)
     }
 
-    pub fn to_json_string(&self) -> String {
-        let result = serde_json::to_string_pretty(&self);
-        match result {
-            Ok(data) => data,
-            Err(e) => panic!("{e:?}"),
-        }
+    pub fn to_json_string(&self) -> Result<String, FhirError> {
+        Ok(serde_json::to_string_pretty(&self)?)
     }
 }
 
@@ -290,7 +289,10 @@ mod test {
             .endpoint(endpoint)
             .build();
 
-        let actual = org.to_json_value();
+        let actual = match org.to_json_value() {
+            Ok(res) => res,
+            Err(e) => panic!("{e:?}"),
+        };
 
         assert_eq!(expected, actual)
     }
@@ -329,7 +331,10 @@ mod test {
             .endpoint(endpoint)
             .build();
 
-        let value = org.to_json_string();
+        let value = match org.to_json_string() {
+            Ok(res) => res,
+            Err(e) => panic!("{e:?}"),
+        };
         let actual: serde_json::Value = serde_json::from_str(value.as_str()).unwrap();
 
         assert_eq!(expected, actual)

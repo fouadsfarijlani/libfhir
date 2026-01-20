@@ -1,11 +1,14 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::{
-        CodeableConcept, Coding, ContactPoint, GetResourceReferences, Identifier, Period,
-        Reference, ReferenceTypes,
+use crate::{
+    FhirError,
+    r4::{
+        elements::{
+            CodeableConcept, Coding, ContactPoint, GetResourceReferences, Identifier, Period,
+            Reference, ReferenceTypes,
+        },
+        resources::{DomainResource, Organization, ResourceType},
     },
-    resources::{DomainResource, Organization, ResourceType},
 };
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone, Default)]
@@ -88,12 +91,12 @@ impl Endpoint {
         }
     }
 
-    pub fn to_json_value(&self) -> serde_json::Value {
-        serde_json::to_value(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    pub fn to_json_value(&self) -> Result<serde_json::Value, FhirError> {
+        Ok(serde_json::to_value(&self)?)
     }
 
-    pub fn to_json_string(&self) -> String {
-        serde_json::to_string_pretty(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    pub fn to_json_string(&self) -> Result<String, FhirError> {
+        Ok(serde_json::to_string_pretty(&self)?)
     }
 }
 
@@ -309,7 +312,9 @@ mod test {
             ..Default::default()
         };
 
-        let value = endpoint.to_json_string();
+        let value = endpoint
+            .to_json_string()
+            .unwrap_or_else(|e| panic!("{e:?}"));
         let actual: serde_json::Value = serde_json::from_str(value.as_str()).unwrap();
 
         assert_eq!(expected, actual)

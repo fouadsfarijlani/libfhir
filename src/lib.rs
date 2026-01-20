@@ -113,3 +113,6 @@ pub mod r4 {
         pub use practitioner_role::resource::*;
     }
 }
+
+pub mod error;
+pub use error::*;

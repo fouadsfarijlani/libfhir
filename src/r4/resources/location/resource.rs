@@ -1,11 +1,14 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::{
-        Address, BackboneElement, CodeableConcept, Coding, ContactPoint, DaysOfWeek,
-        GetResourceReferences, Identifier, Reference, ReferenceTypes,
+use crate::{
+    FhirError,
+    r4::{
+        elements::{
+            Address, BackboneElement, CodeableConcept, Coding, ContactPoint, DaysOfWeek,
+            GetResourceReferences, Identifier, Reference, ReferenceTypes,
+        },
+        resources::{self, DomainResource, Endpoint, Organization, ResourceType},
     },
-    resources::{self, DomainResource, Endpoint, Organization, ResourceType},
 };
 
 #[derive(Debug, Default, Serialize, Deserialize, PartialEq, Clone)]
@@ -152,12 +155,12 @@ impl Location {
         resources::from_json(data)
     }
 
-    pub fn to_json_value(&self) -> serde_json::Value {
-        serde_json::to_value(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    pub fn to_json_value(&self) -> Result<serde_json::Value, FhirError> {
+        Ok(serde_json::to_value(&self)?)
     }
 
-    pub fn to_json_string(&self) -> String {
-        serde_json::to_string_pretty(&self).unwrap_or_else(|e| panic!("{e:?}"))
+    pub fn to_json_string(&self) -> Result<String, FhirError> {
+        Ok(serde_json::to_string_pretty(&self)?)
     }
 }
 
@@ -340,7 +343,7 @@ mod test {
             }
         });
 
-        let actual = location.to_json_value();
+        let actual = location.to_json_value().unwrap_or_else(|e| panic!("{e:?}"));
 
         assert_eq!(expected, actual);
     }
