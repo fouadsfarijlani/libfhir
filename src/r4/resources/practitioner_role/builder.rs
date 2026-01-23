@@ -4,7 +4,7 @@ use crate::r4::{
     },
     resources::{
         DomainResource, Endpoint, HealthcareService, Location, Organization, Practitioner,
-        PractitionerRole, Resource,
+        PractitionerRole, Resource, ResourceType,
     },
 };
 
@@ -41,12 +41,12 @@ impl PractitionerRoleBuilder {
         }
     }
 
-    pub fn with_id(mut self, id: impl Into<String>) -> Self {
+    pub fn id(mut self, id: impl Into<String>) -> Self {
         self.domain_resource.resource.id = Some(id.into());
         self
     }
 
-    pub fn with_identifier(mut self, identifiers: Vec<Identifier>) -> Self {
+    pub fn identifier(mut self, identifiers: Vec<Identifier>) -> Self {
         self.identifier = Some(identifiers);
         self
     }
@@ -59,27 +59,27 @@ impl PractitionerRoleBuilder {
         self
     }
 
-    pub fn with_active(mut self, active: bool) -> Self {
+    pub fn active(mut self, active: bool) -> Self {
         self.active = Some(active);
         self
     }
 
-    pub fn with_period(mut self, period: Period) -> Self {
+    pub fn period(mut self, period: Period) -> Self {
         self.period = Some(period);
         self
     }
 
-    pub fn with_practitioner(mut self, practitioner: Reference<Practitioner>) -> Self {
+    pub fn practitioner(mut self, practitioner: Reference<Practitioner>) -> Self {
         self.practitioner = Some(practitioner);
         self
     }
 
-    pub fn with_organization(mut self, organization: Reference<Organization>) -> Self {
+    pub fn organization(mut self, organization: Reference<Organization>) -> Self {
         self.organization = Some(organization);
         self
     }
 
-    pub fn with_code(mut self, code: Vec<CodeableConcept>) -> Self {
+    pub fn code(mut self, code: Vec<CodeableConcept>) -> Self {
         self.code = Some(code);
         self
     }
@@ -92,7 +92,7 @@ impl PractitionerRoleBuilder {
         self
     }
 
-    pub fn with_speciality(mut self, specialities: Vec<CodeableConcept>) -> Self {
+    pub fn speciality(mut self, specialities: Vec<CodeableConcept>) -> Self {
         self.speciality = Some(specialities);
         self
     }
@@ -105,7 +105,7 @@ impl PractitionerRoleBuilder {
         self
     }
 
-    pub fn with_location(mut self, locations: Vec<Reference<Location>>) -> Self {
+    pub fn location(mut self, locations: Vec<Reference<Location>>) -> Self {
         self.location = Some(locations);
         self
     }
@@ -117,7 +117,7 @@ impl PractitionerRoleBuilder {
         self
     }
 
-    pub fn with_healthcare_service(mut self, services: Vec<Reference<HealthcareService>>) -> Self {
+    pub fn healthcare_service(mut self, services: Vec<Reference<HealthcareService>>) -> Self {
         self.healthcare_service = Some(services);
         self
     }
@@ -130,7 +130,7 @@ impl PractitionerRoleBuilder {
         self
     }
 
-    pub fn with_telecom(mut self, telecoms: Vec<ContactPoint>) -> Self {
+    pub fn telecom(mut self, telecoms: Vec<ContactPoint>) -> Self {
         self.telecom = Some(telecoms);
         self
     }
@@ -143,7 +143,7 @@ impl PractitionerRoleBuilder {
         self
     }
 
-    pub fn with_available_time(mut self, available_times: Vec<AvailableTime>) -> Self {
+    pub fn available_time(mut self, available_times: Vec<AvailableTime>) -> Self {
         self.available_time = Some(available_times);
         self
     }
@@ -156,7 +156,7 @@ impl PractitionerRoleBuilder {
         self
     }
 
-    pub fn with_not_available(mut self, not_available: Vec<NotAvailable>) -> Self {
+    pub fn not_available(mut self, not_available: Vec<NotAvailable>) -> Self {
         self.not_available = Some(not_available);
         self
     }
@@ -169,12 +169,12 @@ impl PractitionerRoleBuilder {
         self
     }
 
-    pub fn with_availability_exceptions(mut self, exception: impl Into<String>) -> Self {
+    pub fn availability_exceptions(mut self, exception: impl Into<String>) -> Self {
         self.availability_exceptions = Some(exception.into());
         self
     }
 
-    pub fn with_endpoint(mut self, endpoints: Vec<Reference<Endpoint>>) -> Self {
+    pub fn endpoint(mut self, endpoints: Vec<Reference<Endpoint>>) -> Self {
         self.endpoint = Some(endpoints);
         self
     }
@@ -204,6 +204,7 @@ impl PractitionerRoleBuilder {
             not_available: self.not_available,
             availability_exceptions: self.availability_exceptions,
             endpoint: self.endpoint,
+            resource_type: PractitionerRole::get_resource_type(),
         }
     }
 }
@@ -295,21 +296,22 @@ mod test {
                 end: Some("2026-01-01".to_string()),
                 ..Default::default()
             }),
+            ..Default::default()
         };
 
         let actual = PractitionerRoleBuilder::new("pr1")
-            .with_active(true)
-            .with_practitioner(
+            .active(true)
+            .practitioner(
                 ReferenceBuilder::default()
                     .with_reference("Practitioner/prac1")
                     .build::<Practitioner>(),
             )
-            .with_organization(
+            .organization(
                 ReferenceBuilder::default()
                     .with_reference("Organization/org1")
                     .build::<Organization>(),
             )
-            .with_code(vec![CodeableConcept {
+            .code(vec![CodeableConcept {
                 coding: Some(vec![Coding {
                     system: Some("http://example.com".to_string()),
                     code: Some("doctor".to_string()),
@@ -318,7 +320,7 @@ mod test {
                 }]),
                 ..Default::default()
             }])
-            .with_speciality(vec![CodeableConcept {
+            .speciality(vec![CodeableConcept {
                 coding: Some(vec![Coding {
                     system: Some("http://example.com".to_string()),
                     code: Some("cardiology".to_string()),
@@ -356,7 +358,7 @@ mod test {
                 }),
                 ..Default::default()
             })
-            .with_availability_exceptions("Reduced hours during summer")
+            .availability_exceptions("Reduced hours during summer")
             .add_endpoint(Reference::<Endpoint> {
                 reference: Some("Endpoint/ep1".to_string()),
                 ..Default::default()
@@ -366,7 +368,7 @@ mod test {
                 value: Some("ident-1".to_string()),
                 ..Default::default()
             })
-            .with_period(Period {
+            .period(Period {
                 start: Some("2025-01-01".to_string()),
                 end: Some("2026-01-01".to_string()),
                 ..Default::default()

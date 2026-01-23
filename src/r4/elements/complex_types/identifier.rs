@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::{CodeableConcept, Element, Period, Reference},
-    resources::{self, Organization, ResourceType},
+use crate::{
+    FhirError,
+    r4::{
+        elements::{CodeableConcept, Element, Period, Reference},
+        resources::{Organization, ResourceType},
+    },
 };
 // TODO: add IdentifierUse Types
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
@@ -34,8 +37,8 @@ impl ResourceType for Identifier {
 }
 
 impl Identifier {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 }
 

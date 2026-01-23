@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::BackboneElement,
-    resources::{self, ResourceType},
+use crate::{
+    FhirError,
+    r4::{
+        elements::BackboneElement,
+        resources::ResourceType,
+    },
 };
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
@@ -33,8 +36,8 @@ impl ResourceType for AvailableTime {
 }
 
 impl AvailableTime {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 }
 
@@ -119,7 +122,7 @@ mod test {
             .with_available_start_time("08:00")
             .with_available_end_time("17:00")
             .build();
-        let actual = AvailableTime::from_json(data);
+        let actual = AvailableTime::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

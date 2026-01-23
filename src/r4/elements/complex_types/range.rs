@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::{Element, Quantity},
-    resources::{self, ResourceType},
+use crate::{
+    FhirError,
+    r4::{
+        elements::{Element, Quantity},
+        resources::ResourceType,
+    },
 };
 
 #[derive(Debug, Serialize, Deserialize, PartialEq)]
@@ -18,8 +21,8 @@ impl ResourceType for Range {
 }
 
 impl Range {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 }
 
@@ -114,7 +117,7 @@ mod test {
             .with_high(high)
             .build();
 
-        let actual = Range::from_json(data);
+        let actual = Range::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

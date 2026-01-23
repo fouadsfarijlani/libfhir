@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::Element,
-    resources::{self, ResourceType},
+use crate::{
+    FhirError,
+    r4::{
+        elements::Element,
+        resources::ResourceType,
+    },
 };
 
 // TODO: Consider including currency system ISO 4217
@@ -19,8 +22,8 @@ impl ResourceType for Money {
 }
 
 impl Money {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 }
 
@@ -81,7 +84,7 @@ mod test {
             .with_currency("Euro".to_string())
             .build();
 
-        let actual = Money::from_json(data);
+        let actual = Money::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

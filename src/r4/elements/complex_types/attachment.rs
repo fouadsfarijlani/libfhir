@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::Element,
-    resources::{self, ResourceType},
+use crate::{
+    FhirError,
+    r4::{
+        elements::Element,
+        resources::ResourceType,
+    },
 };
 
 #[derive(Debug, Default, Serialize, Deserialize, PartialEq, Clone)]
@@ -25,8 +28,8 @@ impl ResourceType for Attachement {
 }
 
 impl Attachement {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 }
 
@@ -140,7 +143,7 @@ mod test {
             .with_creation("2025-11-07T14:23:00Z")
             .build();
 
-        let actual = Attachement::from_json(data);
+        let actual = Attachement::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }
