@@ -7,7 +7,7 @@ use crate::{
             Attachement, AvailableTime, BackboneElement, CodeableConcept, ContactPoint,
             GetResourceReferences, Identifier, NotAvailable, Reference, ReferenceTypes,
         },
-        resources::{self, DomainResource, Endpoint, Location, Organization, ResourceType},
+        resources::{DomainResource, Endpoint, Location, Organization, ResourceType},
     },
 };
 
@@ -145,8 +145,8 @@ impl ResourceType for HealthcareService {
 }
 
 impl HealthcareService {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 
     pub fn to_json_value(&self) -> Result<serde_json::Value, FhirError> {
@@ -343,7 +343,7 @@ mod test {
             ..Default::default()
         };
 
-        let actual = HealthcareService::from_json(data);
+        let actual = HealthcareService::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

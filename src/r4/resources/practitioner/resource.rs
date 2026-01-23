@@ -7,7 +7,7 @@ use crate::{
             Address, Attachement, BackboneElement, CodeableConcept, ContactPoint,
             GetResourceReferences, HumanName, Identifier, Period, Reference, ReferenceTypes,
         },
-        resources::{self, DomainResource, Organization, ResourceType},
+        resources::{DomainResource, Organization, ResourceType},
     },
 };
 
@@ -106,8 +106,8 @@ impl ResourceType for Practitioner {
 }
 
 impl Practitioner {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 
     pub fn to_json_string(&self) -> Result<String, FhirError> {
@@ -250,7 +250,7 @@ mod test {
             ..Default::default()
         };
 
-        let actual = Practitioner::from_json(data);
+        let actual = Practitioner::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

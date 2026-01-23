@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::{Coding, Element},
-    resources::{self, ResourceType},
+use crate::{
+    FhirError,
+    r4::{
+        elements::{Coding, Element},
+        resources::ResourceType,
+    },
 };
 
 #[derive(Debug, Default, Serialize, PartialEq, Deserialize, Clone)]
@@ -22,8 +25,8 @@ impl ResourceType for CodeableConcept {
 }
 
 impl CodeableConcept {
-    pub fn from_json(data: &str) -> Self {
-        resources::resource::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 }
 
@@ -130,7 +133,7 @@ mod test {
             )
             .build();
 
-        let actual = CodeableConcept::from_json(data);
+        let actual = CodeableConcept::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

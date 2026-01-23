@@ -95,12 +95,8 @@ impl Default for Organization {
 }
 
 impl Organization {
-    pub fn from_json(data: &str) -> Self {
-        let results = serde_json::from_str::<Organization>(data);
-        match results {
-            Ok(org) => org,
-            Err(e) => panic!("{e:?}"),
-        }
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 
     pub fn to_json_value(&self) -> Result<serde_json::Value, FhirError> {
@@ -250,7 +246,7 @@ mod test {
             ..Default::default()
         };
 
-        let actual = Organization::from_json(data);
+        let actual = Organization::from_json(data).unwrap();
 
         assert_eq!(expected, actual);
     }

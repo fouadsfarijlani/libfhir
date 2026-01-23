@@ -7,7 +7,7 @@ use crate::{
             Address, BackboneElement, CodeableConcept, Coding, ContactPoint, DaysOfWeek,
             GetResourceReferences, Identifier, Reference, ReferenceTypes,
         },
-        resources::{self, DomainResource, Endpoint, Organization, ResourceType},
+        resources::{DomainResource, Endpoint, Organization, ResourceType},
     },
 };
 
@@ -151,8 +151,8 @@ impl Default for Location {
 }
 
 impl Location {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 
     pub fn to_json_value(&self) -> Result<serde_json::Value, FhirError> {
@@ -287,7 +287,7 @@ mod test {
             resource_type: "Location".to_string(),
         };
 
-        let actual = Location::from_json(data);
+        let actual = Location::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

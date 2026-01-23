@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::{Element, Quantity},
-    resources::{self, ResourceType},
+use crate::{
+    FhirError,
+    r4::{
+        elements::{Element, Quantity},
+        resources::ResourceType,
+    },
 };
 
 #[derive(Debug, Serialize, Deserialize, PartialEq)]
@@ -18,8 +21,8 @@ impl ResourceType for Ratio {
 }
 
 impl Ratio {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 }
 
@@ -111,7 +114,7 @@ mod test {
             .with_denomenator(denomenator)
             .build();
 
-        let actual = Ratio::from_json(data);
+        let actual = Ratio::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

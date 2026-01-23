@@ -1,3 +1,4 @@
+
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -83,12 +84,8 @@ impl Default for Endpoint {
 }
 
 impl Endpoint {
-    pub fn from_json(data: &str) -> Self {
-        let result = serde_json::from_str(data);
-        match result {
-            Ok(ep) => ep,
-            Err(e) => panic!("{e:?}"),
-        }
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 
     pub fn to_json_value(&self) -> Result<serde_json::Value, FhirError> {
@@ -125,7 +122,7 @@ mod test {
     #[test]
     pub fn get_endpoint_from_json() {
         let data = include_str!("../../../../fixtures/r4/resources/endpoint.json");
-        let ep = Endpoint::from_json(data);
+        let ep = Endpoint::from_json(data).unwrap();
         dbg!(ep);
         // println!("{:#?}", ep)
     }
@@ -194,7 +191,7 @@ mod test {
             resource_type: "Endpoint".to_string(),
         };
 
-        let actual = Endpoint::from_json(data);
+        let actual = Endpoint::from_json(data).unwrap();
 
         assert_eq!(expected, actual);
     }
@@ -312,9 +309,7 @@ mod test {
             ..Default::default()
         };
 
-        let value = endpoint
-            .to_json_string()
-            .unwrap_or_else(|e| panic!("{e:?}"));
+        let value = endpoint.to_json_string().unwrap();
         let actual: serde_json::Value = serde_json::from_str(value.as_str()).unwrap();
 
         assert_eq!(expected, actual)

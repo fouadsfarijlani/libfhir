@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-use crate::r4::{
-    elements::Element,
-    resources::{self, ResourceType},
+use crate::{
+    FhirError,
+    r4::{
+        elements::Element,
+        resources::ResourceType,
+    },
 };
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
@@ -18,8 +21,8 @@ impl ResourceType for Period {
 }
 
 impl Period {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 }
 
@@ -80,7 +83,7 @@ mod test {
             .with_end("20-10-2025")
             .build();
 
-        let actual = Period::from_json(data);
+        let actual = Period::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

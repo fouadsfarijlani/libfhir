@@ -9,7 +9,7 @@ use crate::{
             ReferenceTypes,
         },
         resources::{
-            self, DomainResource, Endpoint, HealthcareService, Location, Organization, ResourceType,
+            DomainResource, Endpoint, HealthcareService, Location, Organization, ResourceType,
         },
     },
 };
@@ -88,8 +88,8 @@ impl ResourceType for OrganizationAffiliation {
 }
 
 impl OrganizationAffiliation {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 
     pub fn to_json_value(&self) -> Result<Value, FhirError> {
@@ -239,7 +239,7 @@ mod test {
             ..Default::default()
         };
 
-        let actual = OrganizationAffiliation::from_json(data);
+        let actual = OrganizationAffiliation::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }

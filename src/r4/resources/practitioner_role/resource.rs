@@ -8,7 +8,7 @@ use crate::{
             NotAvailable, Period, Reference, ReferenceTypes,
         },
         resources::{
-            self, DomainResource, Endpoint, HealthcareService, Location, Organization,
+            DomainResource, Endpoint, HealthcareService, Location, Organization,
             Practitioner, ResourceType,
         },
     },
@@ -95,8 +95,8 @@ impl ResourceType for PractitionerRole {
 }
 
 impl PractitionerRole {
-    pub fn from_json(data: &str) -> Self {
-        resources::from_json(data)
+    pub fn from_json(data: &str) -> Result<Self, FhirError> {
+        Ok(serde_json::from_str(data)?)
     }
 
     pub fn to_json_string(&self) -> Result<String, FhirError> {
@@ -248,7 +248,7 @@ mod test {
             ..Default::default()
         };
 
-        let actual = PractitionerRole::from_json(data);
+        let actual = PractitionerRole::from_json(data).unwrap();
 
         assert_eq!(expected, actual)
     }
