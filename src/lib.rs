@@ -12,8 +12,12 @@ pub mod r4 {
         pub use common::*;
 
         pub mod complex_types {
-            pub mod address;
-            pub use address::*;
+            pub mod address {
+                pub mod builder;
+                pub mod element;
+            }
+            pub use address::builder::*;
+            pub use address::element::*;
 
             pub mod attachment;
             pub use attachment::*;
