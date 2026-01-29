@@ -1,56 +1,23 @@
-use serde::{Deserialize, Serialize};
-
-use crate::{
-    FhirError,
-    r4::{
-        elements::Element,
-        resources::ResourceType,
-    },
-};
-
-#[derive(Debug, Default, Serialize, Deserialize, PartialEq, Clone)]
-#[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
-pub struct Attachement {
-    #[serde(flatten)]
-    pub element: Element,
-    pub content_type: Option<String>,
-    pub language: Option<String>,
-    pub data: Option<String>, // to be resolved later
-    pub url: Option<String>,  // to be resolved later
-    pub size: Option<u32>,
-    pub hash: Option<String>, // TODO: consider hash implementation
-    pub title: Option<String>,
-    pub creation: Option<String>, // to be resolved later
-}
-
-impl ResourceType for Attachement {
-    const TYPE: &'static str = "Attachement";
-}
-
-impl Attachement {
-    pub fn from_json(data: &str) -> Result<Self, FhirError> {
-        Ok(serde_json::from_str(data)?)
-    }
-}
+use crate::r4::elements::{Attachement, Element};
 
 #[derive(Default)]
 pub struct AttachmentBuilder {
     element: Element,
     content_type: Option<String>,
     language: Option<String>,
-    data: Option<String>, // to be resolved later
-    url: Option<String>,  // to be resolved later
+    data: Option<String>,
+    url: Option<String>,
     size: Option<u32>,
-    hash: Option<String>, // TODO: consider hash implementation
+    hash: Option<String>,
     title: Option<String>,
-    creation: Option<String>, // to be resolved later
+    creation: Option<String>,
 }
 
 impl AttachmentBuilder {
     pub fn new(id: impl Into<String>) -> Self {
-        let mut attachment_buider = AttachmentBuilder::default();
-        attachment_buider.element.id = Some(id.into());
-        attachment_buider
+        let mut builder = Self::default();
+        builder.element.id = Some(id.into());
+        builder
     }
 
     pub fn with_id(mut self, id: impl Into<String>) -> Self {
@@ -118,37 +85,6 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_from_json_should_succed() {
-        let data = r#"
-        {
-            "id": "attachment-1",
-            "contentType": "image/png",
-            "language": "en",
-            "data": "some data", 
-            "url": "https://example.org",
-            "size": 58241,
-            "hash": "some hash",
-            "title": "Patient Photo",
-            "creation": "2025-11-07T14:23:00Z"
-        }"#;
-        let expected = AttachmentBuilder::default()
-            .with_id("attachment-1")
-            .with_content_type("image/png")
-            .with_language("en")
-            .with_data("some data")
-            .with_url("https://example.org")
-            .with_size(58241)
-            .with_hash("some hash")
-            .with_title("Patient Photo")
-            .with_creation("2025-11-07T14:23:00Z")
-            .build();
-
-        let actual = Attachement::from_json(data).unwrap();
-
-        assert_eq!(expected, actual)
-    }
-
-    #[test]
     fn test_build_should_succeed() {
         let expected = Attachement {
             element: Element {
@@ -176,6 +112,6 @@ mod test {
             .with_creation("2025-11-07T14:23:00Z")
             .build();
 
-        assert_eq!(expected, actual)
+        assert_eq!(expected, actual);
     }
 }

@@ -19,8 +19,15 @@ pub mod r4 {
             pub use address::builder::*;
             pub use address::element::*;
 
-            pub mod attachment;
-            pub use attachment::*;
+            pub mod attachment {
+                pub mod builder;
+                pub mod element;
+            }
+            pub use attachment::builder::*;
+            pub use attachment::element::*;
+
+            // pub mod attachment;
+            // pub use attachment::*;
 
             pub mod codeable_concept;
             pub use codeable_concept::*;
