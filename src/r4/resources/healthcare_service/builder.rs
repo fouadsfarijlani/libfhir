@@ -1,6 +1,6 @@
 use crate::r4::{
     elements::{
-        Attachement, AvailableTime, BackboneElement, CodeableConcept, ContactPoint, Identifier,
+        Attachment, AvailableTime, BackboneElement, CodeableConcept, ContactPoint, Identifier,
         NotAvailable, Reference,
     },
     resources::{
@@ -59,7 +59,7 @@ pub struct HealthcareServiceBuilder {
     name: Option<String>,
     comment: Option<String>,
     extra_details: Option<String>,
-    photo: Option<Attachement>,
+    photo: Option<Attachment>,
     telecom: Option<Vec<ContactPoint>>,
     coverage_area: Option<Vec<Reference<Location>>>,
     service_provision_code: Option<Vec<CodeableConcept>>,
@@ -164,7 +164,7 @@ impl HealthcareServiceBuilder {
         self
     }
 
-    pub fn with_photo(mut self, photo: Attachement) -> Self {
+    pub fn with_photo(mut self, photo: Attachment) -> Self {
         self.photo = Some(photo);
         self
     }

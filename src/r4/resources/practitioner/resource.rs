@@ -4,7 +4,7 @@ use crate::{
     FhirError,
     r4::{
         elements::{
-            Address, Attachement, BackboneElement, CodeableConcept, ContactPoint,
+            Address, Attachment, BackboneElement, CodeableConcept, ContactPoint,
             GetResourceReferences, HumanName, Identifier, Period, Reference, ReferenceTypes,
         },
         resources::{DomainResource, Organization, ResourceType},
@@ -69,7 +69,7 @@ pub struct Practitioner {
     pub birth_date: Option<String>, // Date for later
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub photo: Option<Vec<Attachement>>,
+    pub photo: Option<Vec<Attachment>>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub qualification: Option<Vec<PractitionerQualification>>,
@@ -205,7 +205,7 @@ mod test {
             }]),
             gender: Some(Gender::Male),
             birth_date: Some("1980-04-15".to_string()),
-            photo: Some(vec![Attachement {
+            photo: Some(vec![Attachment {
                 content_type: Some("image/jpeg".to_string()),
                 url: Some("https://example.org/photos/practitioner-1.jpg".to_string()),
                 title: Some("Profile photo".to_string()),
