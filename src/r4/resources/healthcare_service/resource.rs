@@ -4,7 +4,7 @@ use crate::{
     FhirError,
     r4::{
         elements::{
-            Attachement, AvailableTime, BackboneElement, CodeableConcept, ContactPoint,
+            Attachment, AvailableTime, BackboneElement, CodeableConcept, ContactPoint,
             GetResourceReferences, Identifier, NotAvailable, Reference, ReferenceTypes,
         },
         resources::{DomainResource, Endpoint, Location, Organization, ResourceType},
@@ -61,7 +61,7 @@ pub struct HealthcareService {
     pub extra_details: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub photo: Option<Attachement>,
+    pub photo: Option<Attachment>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub telecom: Option<Vec<ContactPoint>>,

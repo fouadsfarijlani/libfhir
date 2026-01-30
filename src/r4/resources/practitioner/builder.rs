@@ -1,6 +1,6 @@
 use crate::r4::{
     elements::{
-        Address, Attachement, BackboneElement, CodeableConcept, ContactPoint, Element, HumanName,
+        Address, Attachment, BackboneElement, CodeableConcept, ContactPoint, Element, HumanName,
         Identifier, Period, Reference,
     },
     resources::{
@@ -86,7 +86,7 @@ pub struct PractitionerBuilder {
     address: Option<Vec<Address>>,
     gender: Option<Gender>,     // TODO: This should be a code
     birth_date: Option<String>, // Date for later
-    photo: Option<Vec<Attachement>>,
+    photo: Option<Vec<Attachment>>,
     qualification: Option<Vec<PractitionerQualification>>,
     communication: Option<Vec<CodeableConcept>>,
 }
@@ -177,12 +177,12 @@ impl PractitionerBuilder {
         self
     }
 
-    pub fn photo(mut self, photos: Vec<Attachement>) -> Self {
+    pub fn photo(mut self, photos: Vec<Attachment>) -> Self {
         self.photo = Some(photos);
         self
     }
 
-    pub fn add_photo(mut self, photo: Attachement) -> Self {
+    pub fn add_photo(mut self, photo: Attachment) -> Self {
         match &mut self.photo {
             Some(p) => p.push(photo),
             None => self.photo = Some(vec![photo]),

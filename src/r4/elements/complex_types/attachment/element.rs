@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Default, Serialize, Deserialize, PartialEq, Clone)]
 #[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
-pub struct Attachement {
+pub struct Attachment {
     #[serde(flatten)]
     pub element: Element,
 
@@ -35,11 +35,11 @@ pub struct Attachement {
     pub creation: Option<String>,
 }
 
-impl ResourceType for Attachement {
+impl ResourceType for Attachment {
     const TYPE: &'static str = "Attachement";
 }
 
-impl Attachement {
+impl Attachment {
     pub fn from_json(data: &str) -> Result<Self, FhirError> {
         Ok(serde_json::from_str(data)?)
     }
@@ -75,17 +75,17 @@ mod test {
         .to_string();
 
         let expected = AttachmentBuilder::new("attachment-1")
-            .with_content_type("image/png")
-            .with_language("en")
-            .with_data("some data")
-            .with_url("https://example.org")
-            .with_size(58241)
-            .with_hash("some hash")
-            .with_title("Patient Photo")
-            .with_creation("2025-11-07T14:23:00Z")
+            .content_type("image/png")
+            .language("en")
+            .data("some data")
+            .url("https://example.org")
+            .size(58241)
+            .hash("some hash")
+            .title("Patient Photo")
+            .creation("2025-11-07T14:23:00Z")
             .build();
 
-        let actual = Attachement::from_json(&data).unwrap();
+        let actual = Attachment::from_json(&data).unwrap();
 
         assert_eq!(expected, actual);
     }
@@ -93,8 +93,8 @@ mod test {
     #[test]
     fn test_to_json_value_should_succeed() {
         let attachment = AttachmentBuilder::new("attachment-1")
-            .with_title("X-Ray Image")
-            .with_content_type("image/jpeg")
+            .title("X-Ray Image")
+            .content_type("image/jpeg")
             .build();
 
         let expected = json!({
@@ -111,8 +111,8 @@ mod test {
     #[test]
     fn test_to_json_string_should_succeed() {
         let attachment = AttachmentBuilder::new("attachment-1")
-            .with_title("MRI Scan")
-            .with_content_type("image/dicom")
+            .title("MRI Scan")
+            .content_type("image/dicom")
             .build();
 
         let expected = json!({

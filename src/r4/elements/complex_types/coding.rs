@@ -2,14 +2,11 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     FhirError,
-    r4::{
-        elements::Element,
-        resources::ResourceType,
-    },
+    r4::{elements::Element, resources::ResourceType},
 };
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
-#[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
+#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
 pub struct Coding {
     #[serde(flatten)]
     pub element: Element,
