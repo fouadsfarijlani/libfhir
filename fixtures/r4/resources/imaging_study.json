@@ -1,0 +1,127 @@
+{
+  "resourceType": "ImagingStudy",
+  "id": "imaging-study-1",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "urn:dicom:uid",
+      "value": "urn:oid:1.2.840.113619.2.55.3"
+    },
+    {
+      "use": "secondary",
+      "system": "http://hospital.example.org/study-ids",
+      "value": "STUDY-12345"
+    }
+  ],
+  "status": "available",
+  "modality": [
+    {
+      "coding": [
+        {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "CT",
+          "display": "Computed Tomography"
+        }
+      ],
+      "text": "CT"
+    }
+  ],
+  "type": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "24725-8",
+        "display": "CT of head"
+      }
+    ],
+    "text": "CT of head without contrast"
+  },
+  "subject": {
+    "reference": "Patient/patient-1",
+    "display": "Peter Chalmers"
+  },
+  "started": "2023-01-15T10:30:00Z",
+  "basedOn": [
+    {
+      "reference": "Practitioner/practitioner-1",
+      "display": "Dr. John Doe"
+    }
+  ],
+  "referrer": {
+    "reference": "Practitioner/practitioner-2",
+    "display": "Dr. Jane Smith"
+  },
+  "interpreter": [
+    {
+      "reference": "Practitioner/practitioner-3",
+      "display": "Dr. Robert Johnson"
+    }
+  ],
+  "endpoint": [
+    {
+      "reference": "Endpoint/endpoint-1",
+      "display": "PACS Server"
+    }
+  ],
+  "numberOfSeries": 1,
+  "numberOfInstances": 10,
+  "series": [
+    {
+      "uid": "urn:oid:1.2.840.113619.2.55.3.123456789",
+      "number": 1,
+      "modality": {
+        "coding": [
+          {
+            "system": "http://dicom.nema.org/resources/ontology/DCM",
+            "code": "CT",
+            "display": "Computed Tomography"
+          }
+        ],
+        "text": "CT"
+      },
+      "description": "CT Head without contrast",
+      "numberOfInstances": 10,
+      "bodySite": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "27267000",
+            "display": "Head"
+          }
+        ],
+        "text": "Head"
+      },
+      "laterality": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "51440002",
+            "display": "Bilateral"
+          }
+        ],
+        "text": "Bilateral"
+      },
+      "started": "2023-01-15T10:35:00Z",
+      "endpoint": [
+        {
+          "reference": "Endpoint/endpoint-2",
+          "display": "DICOM Archive"
+        }
+      ],
+      "instance": [
+        {
+          "uid": "urn:oid:1.2.840.113619.2.55.3.123456789.1",
+          "number": 1,
+          "sopClass": "urn:oid:1.2.840.10008.5.1.4.1.1.2",
+          "title": "CT Image 1 - Axial"
+        },
+        {
+          "uid": "urn:oid:1.2.840.113619.2.55.3.123456789.2",
+          "number": 2,
+          "sopClass": "urn:oid:1.2.840.10008.5.1.4.1.1.2",
+          "title": "CT Image 2 - Axial"
+        }
+      ]
+    }
+  ]
+}
