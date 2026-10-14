@@ -7,7 +7,7 @@ use crate::{
     r4::{
         elements::{complex_types::Identifier, element::Element},
         resources::{
-            Endpoint, HealthcareService, Location, Organization, Practitioner, ResourceType,
+            Endpoint, HealthcareService, Location, Organization, Patient, Practitioner, ResourceType,
         },
     },
 };
@@ -55,6 +55,7 @@ pub enum ReferenceTypes<'a> {
     ReferenceLocation(&'a Reference<Location>),
     ReferecenceHealthcareServce(&'a Reference<HealthcareService>),
     ReferencePractitioner(&'a Reference<Practitioner>),
+    ReferencePatient(&'a Reference<Patient>),
 }
 
 impl<'a> From<&'a Reference<Endpoint>> for ReferenceTypes<'a> {
@@ -84,6 +85,12 @@ impl<'a> From<&'a Reference<HealthcareService>> for ReferenceTypes<'a> {
 impl<'a> From<&'a Reference<Practitioner>> for ReferenceTypes<'a> {
     fn from(value: &'a Reference<Practitioner>) -> Self {
         Self::ReferencePractitioner(value)
+    }
+}
+
+impl<'a> From<&'a Reference<Patient>> for ReferenceTypes<'a> {
+    fn from(value: &'a Reference<Patient>) -> Self {
+        Self::ReferencePatient(value)
     }
 }
 

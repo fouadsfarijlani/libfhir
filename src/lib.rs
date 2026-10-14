@@ -123,6 +123,13 @@ pub mod r4 {
         }
         pub use practitioner_role::builder::*;
         pub use practitioner_role::resource::*;
+
+        pub mod patient {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use patient::builder::*;
+        pub use patient::resource::*;
     }
 }
 
