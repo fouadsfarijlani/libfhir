@@ -130,6 +130,13 @@ pub mod r4 {
         }
         pub use patient::builder::*;
         pub use patient::resource::*;
+
+        pub mod imaging_study {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use imaging_study::builder::*;
+        pub use imaging_study::resource::*;
     }
 }
 
