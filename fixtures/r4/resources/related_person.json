@@ -1,0 +1,75 @@
+{
+  "resourceType": "RelatedPerson",
+  "id": "related-person-1",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://example.org/related-persons",
+      "value": "RP-001"
+    }
+  ],
+  "active": true,
+  "patient": {
+    "reference": "Patient/patient-1",
+    "display": "John Doe"
+  },
+  "relationship": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+          "code": "MTH",
+          "display": "mother"
+        }
+      ],
+      "text": "Mother"
+    }
+  ],
+  "name": [
+    {
+      "family": "Smith",
+      "given": ["Jane"]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "+1-555-123-4567",
+      "use": "home"
+    },
+    {
+      "system": "email",
+      "value": "jane.smith@example.com",
+      "use": "home"
+    }
+  ],
+  "gender": "female",
+  "birthDate": "1970-05-15",
+  "address": [
+    {
+      "use": "home",
+      "line": [
+        "123 Main Street"
+      ],
+      "city": "Springfield",
+      "state": "IL",
+      "postalCode": "62701",
+      "country": "USA"
+    }
+  ],
+  "communication": [
+    {
+      "language": {
+        "coding": [
+          {
+            "system": "http://tools.ietf.org/html/bcp47",
+            "code": "en",
+            "display": "English"
+          }
+        ],
+        "text": "English"
+      },
+      "preferred": true
+    }
+  ]
+}

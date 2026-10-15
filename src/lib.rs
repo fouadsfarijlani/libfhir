@@ -137,6 +137,13 @@ pub mod r4 {
         }
         pub use imaging_study::builder::*;
         pub use imaging_study::resource::*;
+
+        pub mod related_person {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use related_person::builder::*;
+        pub use related_person::resource::*;
     }
 }
 
