@@ -1,0 +1,57 @@
+{
+  "resourceType": "Person",
+  "id": "person-1",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://example.org/persons",
+      "value": "PER-001"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "family": "Smith",
+      "given": ["John"]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "+1-555-123-4567",
+      "use": "work"
+    },
+    {
+      "system": "email",
+      "value": "john.smith@example.com",
+      "use": "work"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1980-03-15",
+  "address": [
+    {
+      "use": "work",
+      "line": [
+        "123 Business Street"
+      ],
+      "city": "Springfield",
+      "state": "IL",
+      "postalCode": "62701",
+      "country": "USA"
+    }
+  ],
+  "managingOrganization": {
+    "reference": "Organization/org-1",
+    "display": "Acme Corporation"
+  },
+  "link": [
+    {
+      "target": {
+        "reference": "Organization/org-2",
+        "display": "Partner Organization"
+      },
+      "assurance": "level1"
+    }
+  ]
+}
