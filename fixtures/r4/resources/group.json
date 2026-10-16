@@ -1,0 +1,87 @@
+{
+  "resourceType": "Group",
+  "id": "group-1",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://example.org/groups",
+      "value": "GRP-001"
+    }
+  ],
+  "active": true,
+  "type": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/group-type",
+        "code": "person",
+        "display": "Person"
+      }
+    ],
+    "text": "Person"
+  },
+  "actual": true,
+  "characteristic": [
+    {
+      "code": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/group-characteristic",
+            "code": "gender",
+            "display": "Gender"
+          }
+        ],
+        "text": "Gender"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/administrative-gender",
+            "code": "male",
+            "display": "Male"
+          }
+        ],
+        "text": "Male"
+      },
+      "exclude": false
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "LA27978-2",
+        "display": "Family"
+      }
+    ],
+    "text": "Family"
+  },
+  "name": "Smith Family",
+  "description": "The Smith family group for care coordination",
+  "quantity": 4,
+  "managingEntity": {
+    "reference": "Organization/org-1",
+    "display": "Acme Healthcare"
+  },
+  "member": [
+    {
+      "entity": {
+        "reference": "Patient/patient-1",
+        "display": "John Smith"
+      },
+      "period": {
+        "start": "2020-01-01"
+      },
+      "inactive": false
+    },
+    {
+      "entity": {
+        "reference": "Patient/patient-2",
+        "display": "Jane Smith"
+      },
+      "period": {
+        "start": "2020-01-01"
+      },
+      "inactive": false
+    }
+  ]
+}

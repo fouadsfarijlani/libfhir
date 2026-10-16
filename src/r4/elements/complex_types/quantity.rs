@@ -8,7 +8,7 @@ use crate::{
     },
 };
 // TODO: Consider adding Comperator Set
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 pub struct Quantity {
     #[serde(flatten)]
     pub element: Element,
