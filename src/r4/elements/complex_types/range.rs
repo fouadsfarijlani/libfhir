@@ -8,7 +8,7 @@ use crate::{
     },
 };
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 pub struct Range {
     #[serde(flatten)]
     pub element: Element,

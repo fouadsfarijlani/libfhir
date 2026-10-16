@@ -151,6 +151,13 @@ pub mod r4 {
         }
         pub use person::builder::*;
         pub use person::resource::*;
+
+        pub mod group {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use group::builder::*;
+        pub use group::resource::*;
     }
 }
 
