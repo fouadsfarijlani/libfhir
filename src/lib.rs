@@ -144,6 +144,13 @@ pub mod r4 {
         }
         pub use related_person::builder::*;
         pub use related_person::resource::*;
+
+        pub mod person {
+            pub mod builder;
+            pub mod resource;
+        }
+        pub use person::builder::*;
+        pub use person::resource::*;
     }
 }
 
